@@ -11,7 +11,7 @@
 import numpy as np
 import pandas as pd
 from random import random as rnd
-from random import randrange, seed, shuffle, choice
+from random import randrange, seed, shuffle
 from itertools import combinations
 
 seed(42)
@@ -21,7 +21,7 @@ colnames = df_prices.columns
 cantidad = df_prices.iloc[:,4]
 for colname in colnames:
     df_prices[colname] = df_prices[colname]*cantidad
-df_prices = df_prices.iloc[:200,5:] #Eliminate route columns
+df_prices = df_prices.iloc[:50,5:] #Eliminate route columns
 mast_np = df_prices.to_numpy()
 
 del df_prices, colnames, colname, cantidad
@@ -186,7 +186,7 @@ def fitness_calculation(chrom, mast_np, min_item_per_row = 1, MAX_NUM_TRANS = 3,
 #    pen_num_trans_lin = PENALIZATION*(max(MAX_NUM_TRANS,len(chrom))-MAX_NUM_TRANS) #Penalization for the number of transportists, linear
 #    pen_percent = price*(max(MAX_NUM_TRANS,len(chrom))-MAX_NUM_TRANS)*PERCENT #Penalization as a percentage of the total cost for each extra transportist
 #    pen_rating = PENALIZATION*sum(RATING_TRANS[chrom])/len(chrom) #Penalization for the rating of the transportists
-    fitness_val = price + pen_num_trans_squ #+ pen_num_trans_lin + pen_percent + pen_rating
+    fitness_val = price + pen_num_trans_squ #+ pen_num_trans_lin + pen_percent + pen_rating    
     return fitness_val
     
 
@@ -281,101 +281,58 @@ def pairing(list_selected_ind):
 # PERFORM CROSSOVER: #
 ######################
     
-#CALC_POSSIBLE_CROSSOVERS
-# Description: This function calculate the possible crossovers that give a 
-#   valid chromosome between two individuals. There are four possible types of 
-#   crossover, taking 1 element from individual A and 1 from individual B; 
-#   taking 2 elements from individual A and 1 from individual B; taking 1 
-#   element from individual A and 2 from individual B; taking 2 elements from
-#   individual A and 2 from individual B.
+
+#CALC_CROSSOVER
+# Description: This function calculates a crossover that gives a valid
+#   chromosome between two individuals. It selects a random number (between 1 
+#   and max_num_gen_changed) of genes of the individuals a and b (note that the
+#   number of genes from individual a to individual b may be different than the
+#   number of genes changed from individual b to individual a) that are 
+#   changed, and calculates if there is any possible crossover of that size. 
+#   If so, one of the possible crossovers (selected randomly) is performed. If 
+#   there is no possible crossover of that size, it is tested another different
+#   combination of sizes. 
 #
 #   @Inputs:
 #       chrom_a: Individual A's chromosome.
 #       chrom_b: Individual B's chromosome.
 #       mast_np: numpy array with the prices.
-#       min_number_of_genes: Minimum number of genes.
-#       max_number_of_genes: Maximum number of genes.
+#       min_number_of_genes: Minimum number of genes of the chromosome.
+#       max_number_of_genes: Maximum number of genes of the chromosome.
+#       max_num_gen_changed_crossover: Maximum number of genes that can be 
+#           taken of an individual in order to make the crossover.
 #   @Outputs:
-#       pos_crossovers: List of tuples in which the first element has the 
-#           elements of ind_a that give a possible crossover and the second the
-#           elements of ind_b. Ie, the first element of the tuple belongs to 
-#           ind_a and should be put in ind_b, and viceversa.
-def calc_possible_crossovers(chrom_a, chrom_b, mast_np, min_number_of_genes, max_number_of_genes):
-    pairs_a = list(combinations(chrom_a, 2)) #Get all the possible combinations of two elements in ind_a
-    pairs_b = list(combinations(chrom_b, 2)) #Get all the possible combinations of two elements in ind_b
-    pos_crossovers = []
-    # 1 element from individual A and 1 from individual B
-    for el_a in chrom_a:
-        for el_b in chrom_b:
-            if (el_a not in chrom_b) and (el_b not in chrom_a): #Check that the element is not repeated
-                crossed_1 = [el_b if x==el_a else x for x in chrom_a]
-                crossed_2 = [el_a if x==el_b else x for x in chrom_b]
-                if check_valid_chromosome(crossed_1, mast_np) and check_valid_chromosome(crossed_2, mast_np):
-                    pos_crossovers.append(([el_a], [el_b])) #If valid chromosomes, append in pos_crossovers
-    # 2 elements from individual A and 1 from individual B
-    if (len(el_a) > min_number_of_genes) and (len(el_b) < max_number_of_genes) and (len(el_a) >= 2): #If the length of both, a and b are not in the limits of length
-        for el_a in pairs_a:
-            el_a_1 = el_a[0]
-            el_a_2 = el_a[1]
-            for el_b in chrom_b:
-                if (el_a_1 not in chrom_b) and (el_a_2 not in chrom_b) and (el_b not in chrom_a): #Check that the element is not repeated       
-                    crossed_1 = chrom_a.copy()
-                    crossed_2 = chrom_b.copy()
-                    #Eliminate the two elements of chrom_a and append the new one
-                    crossed_1.remove(el_a_1) 
-                    crossed_1.remove(el_a_2)
-                    crossed_1.append(el_b)
-                    #Eliminate the element of chrom_b and append the new ones
-                    crossed_2.remove(el_b)
-                    crossed_2.append(el_a_1)
-                    crossed_2.append(el_a_2)
-                    if check_valid_chromosome(crossed_1, mast_np) and check_valid_chromosome(crossed_2, mast_np):
-                        pos_crossovers.append(([el_a_1, el_a_2], [el_b])) #If valid chromosomes, append in pos_crossovers
-    # 1 element from individual A and 2 from individual B
-    if (len(el_b) > min_number_of_genes) and (len(el_a) < max_number_of_genes) and (len(el_b) >= 2): #If the length of both, a and b are not in the limits of length
-        for el_b in pairs_b:
-            el_b_1 = el_b[0]
-            el_b_2 = el_b[1]
-            for el_a in chrom_a:
-                if (el_b_1 not in chrom_a) and (el_b_2 not in chrom_a) and (el_a not in chrom_b) and (len(chrom_b) > 2): #Check that the element is not repeated and the length of chrom_b is bigger than 2
-                    crossed_1 = chrom_a.copy()
-                    crossed_2 = chrom_b.copy()
-                    #Eliminate the element of chrom_a and append the new ones              
-                    crossed_1.remove(el_a) 
-                    crossed_1.append(el_b_1)
-                    crossed_1.append(el_b_2)
-                    #Eliminate the two elements of chrom_b and append the new one
-                    crossed_2.remove(el_b_1)
-                    crossed_2.remove(el_b_2)
-                    crossed_2.append(el_a)
-                    if check_valid_chromosome(crossed_1, mast_np) and check_valid_chromosome(crossed_2, mast_np):
-                        pos_crossovers.append(([el_a], [el_b_1, el_b_2])) #If valid chromosomes, append in pos_crossovers
-    # 2 element from individual A and 2 from individual B
-    if (len(el_a) >= 2) and (len(el_b) >= 2): #If the length of both, a and b are not in the limits of length
-        for el_a in pairs_a:
-            el_a_1 = el_a[0]
-            el_a_2 = el_a[1]
-            for el_b in pairs_b:
-                el_b_1 = el_b[0]
-                el_b_2 = el_b[1]
-                if (el_b_1 not in chrom_a) and (el_b_2 not in chrom_a) and (el_a_1 not in chrom_b) and (el_a_2 not in chrom_b): #Check that the element is not repeated
-                    crossed_1 = chrom_a.copy()
-                    crossed_2 = chrom_b.copy()
-                    #Eliminate the elements of chrom_a and append the new ones              
-                    crossed_1.remove(el_a_1) 
-                    crossed_1.remove(el_a_2)
-                    crossed_1.append(el_b_1)
-                    crossed_1.append(el_b_2)
-                    #Eliminate the elements of chrom_b and append the new ones
-                    crossed_2.remove(el_b_1)
-                    crossed_2.remove(el_b_2)
-                    crossed_2.append(el_a_1)
-                    crossed_2.append(el_a_2)
-                    if check_valid_chromosome(crossed_1, mast_np) and check_valid_chromosome(crossed_2, mast_np):
-                        pos_crossovers.append(([el_a_1, el_a_2], [el_b_1, el_b_2])) #If valid chromosomes, append in pos_crossovers
-    return pos_crossovers
-
-
+#       crossed_1, crossed_2: The two already crossed individuals.
+def calc_crossover(chrom_a, chrom_b, mast_np, min_number_of_genes, max_number_of_genes, max_num_gen_changed_crossover):
+    num_gen_a_interchanged = list(map(lambda x: x+1, list(range(max_num_gen_changed_crossover))))
+    shuffle(num_gen_a_interchanged) #random number of genes of a that are interchanged
+    num_gen_b_interchanged = list(map(lambda x: x+1, list(range(max_num_gen_changed_crossover)))) 
+    shuffle(num_gen_b_interchanged) #random number of genes of b that are interchanged
+    for num_a in num_gen_a_interchanged: #Take a random number of genes of individual a to interchange
+        for num_b in num_gen_b_interchanged: #Take a random number of genes of individual b to interchange
+            pairs_a = list(combinations(chrom_a, num_a)) #Get all the possible combinations of num_a elements in ind_a
+            pairs_b = list(combinations(chrom_b, num_b)) #Get all the possible combinations of num_b elements in ind_b
+            if not ((len(pairs_a) == 0) or (len(pairs_b) == 0)): #If there are no possible combination (more elements to interchange than the length of the list) -> THIS IS NOT SUPPOSED TO HAPPEN ANY TIME IF THE CROSSOVER IS DONE IN AN INTELLIGENT WAY...
+                if not(((len(chrom_a)-num_a+num_b) < min_number_of_genes) or ((len(chrom_b)-num_b+num_a) < min_number_of_genes) or ((len(chrom_a)-num_a+num_b) > max_number_of_genes) or ((len(chrom_b)-num_b+num_a) > max_number_of_genes)): #Too big/small chromosomes would be formed   
+                    shuffle(pairs_a)
+                    shuffle(pairs_b)
+                    for cross_a in pairs_a: #Take a random crossover possibility for individual a
+                        if not (True in [i in chrom_b for i in cross_a]): #Some of the genes of individual a that is going to be interchanged are NOT already in individual b (wouldn't be a crossover)           
+                            for cross_b in pairs_b: #Take a random crossover possibility for individual b
+                                if not (True in [i in chrom_a for i in cross_b]): #Some of the genes of individual b that is going to be interchanged are NOT already in individual a (wouldn't be a crossover)
+                                    crossed_1 = chrom_a.copy() #Crossed individual 1
+                                    crossed_2 = chrom_b.copy() #Crossed individual 2
+                                    for gen in cross_a: #Eliminate the genes of that were selected for crossover from ind a from crossed_1 and add them to crossed_2
+                                        crossed_1.remove(gen) 
+                                        crossed_2.append(gen)        
+                                    for gen in cross_b: #Eliminate the genes of that were selected for crossover from ind b from crossed_2 and add them to crossed_1
+                                        crossed_2.remove(gen) 
+                                        crossed_1.append(gen)              
+                                    if check_valid_chromosome(crossed_1, mast_np) and check_valid_chromosome(crossed_2, mast_np): #If the crossovers result in valid individuals, return them
+                                        return crossed_1, crossed_2
+    return chrom_a, chrom_b #If there are not possible crossovers, just return the two individuals
+  
+    
 #MATING
 # Description: This function ruturns the mated couples of individuals when it 
 #   is possible to make this mating. It makes a random selection of one of the 
@@ -389,29 +346,20 @@ def calc_possible_crossovers(chrom_a, chrom_b, mast_np, min_number_of_genes, max
 #       ordered_pop: Ordered population. It is like the output of the function
 #           calculate_fitness_and_order.
 #       mast_np: numpy array with the prices.
-#       min_number_of_genes: Minimum number of genes.
-#       max_number_of_genes: Maximum number of genes.
+#       min_number_of_genes: Minimum number of genes of the chromosome.
+#       max_number_of_genes: Maximum number of genes of the chromosome.
+#       max_num_gen_changed_crossover: Maximum number of genes that can be 
+#           taken of an individual in order to make the crossover.
 #   @Outputs:
 #       list_new_ind: List with the new chromosomes. 
-def mating(paired_ind, ordered_pop, mast_np, min_number_of_genes, max_number_of_genes):
+def mating(paired_ind, ordered_pop, mast_np, min_number_of_genes, max_number_of_genes, max_num_gen_changed_crossover):
     list_new_ind = []
     for (ind_a, ind_b) in paired_ind:
         chrom_a = ordered_pop[ind_a].chromosome.copy()
         chrom_b = ordered_pop[ind_b].chromosome.copy()
-        pos_crossovers = calc_possible_crossovers(chrom_a, chrom_b, mast_np, min_number_of_genes, max_number_of_genes)
-        if len(pos_crossovers) == 0: #There are no possible crossovers
-            list_new_ind.append(ordered_pop[ind_a].chromosome.copy())
-            list_new_ind.append(ordered_pop[ind_b].chromosome.copy())
-        else: #Else, choose a random crossover, perform it, and append the new individuals to list_new_ind
-            cross = choice(pos_crossovers) #Get a random crossover from the list of possible crossovers
-            elim_a = cross[0]
-            elim_b = cross[1]
-            new_chrom_a = [e for e in chrom_a if e not in elim_a]
-            new_chrom_a.extend(elim_b)
-            new_chrom_b = [e for e in chrom_b if e not in elim_b]
-            new_chrom_b.extend(elim_a)
-            list_new_ind.append(new_chrom_a) #New individuals with temporary fitness value of 0
-            list_new_ind.append(new_chrom_b)         
+        new_chrom_a, new_chrom_b = calc_crossover(chrom_a, chrom_b, mast_np, min_number_of_genes, max_number_of_genes, max_num_gen_changed_crossover)
+        list_new_ind.append(new_chrom_a) #New individuals with temporary fitness value of 0
+        list_new_ind.append(new_chrom_b)         
     return list_new_ind
 
 #####################
@@ -432,13 +380,14 @@ def mating(paired_ind, ordered_pop, mast_np, min_number_of_genes, max_number_of_
 #           'addsub_gen': It is added or eliminated (randomly) a new element to
 #               an Individual.
 #           'both': 'mut_gen' and 'addsub_gen' are randomly applied.
-#       num_gen_changed: It is the number of genes that is changed, ie, the 
-#           number of genes that are added, substracted or changed by new ones.
-#       min_number_of_genes: Minimum number of genes.
-#       max_number_of_genes: Maximum number of genes.
+#       num_gen_changed_mutation: It is the number of genes that is changed,
+#           ie, the number of genes that are added, substracted or changed by 
+#           new ones.
+#       min_number_of_genes: Minimum number of genes of the chromosome.
+#       max_number_of_genes: Maximum number of genes of the chromosome.
 #   @Outputs:
 #       new_chrom: mutated chromosome
-def mutation(chrom, mast_np, mutation_type = 'both', num_gen_changed = 1, min_number_of_genes = None, max_number_of_genes = None):
+def mutation(chrom, mast_np, mutation_type = 'both', num_gen_changed_mutation = 1, min_number_of_genes = None, max_number_of_genes = None):
     num_elem_to_choose = mast_np.shape[1] #Number of elements from which to choose
     list_elem = range(num_elem_to_choose)
     list_elem = [e for e in list_elem if e not in chrom] #Get the elements that can be chosen as new part of the chromosome (new elements).
@@ -456,22 +405,22 @@ def mutation(chrom, mast_np, mutation_type = 'both', num_gen_changed = 1, min_nu
                     list_elem.remove(i)
                     new_chrom = aux_chrom
                     break
-            if FLAG_MUT >= num_gen_changed:
+            if FLAG_MUT >= num_gen_changed_mutation:
                 break
     if (mutation_type == 'addsub_gen') or ((mutation_type == 'both') and (both_tp == 1)):
-        if len(chrom) > max_number_of_genes-num_gen_changed:
+        if len(chrom) > max_number_of_genes-num_gen_changed_mutation:
             add = 0 #sub
-        elif len(chrom) < min_number_of_genes+num_gen_changed:
+        elif len(chrom) < min_number_of_genes+num_gen_changed_mutation:
             add = 1 #add
         else: 
             add = int(rnd() > 0.5) #Randomly choose to add or sub a gen
         if add: #Add a new item
-            for i in range(num_gen_changed):
+            for i in range(num_gen_changed_mutation):
                 it = list_elem.pop()
                 new_chrom.append(it)
         if not add: #Eliminate an item
             aux_chrom = new_chrom.copy()
-            for i in range(num_gen_changed):
+            for i in range(num_gen_changed_mutation):
                 for el in aux_chrom:
                     aux_chrom_test = aux_chrom.copy()
                     aux_chrom_test.remove(el)
@@ -492,8 +441,10 @@ def mutation(chrom, mast_np, mutation_type = 'both', num_gen_changed = 1, min_nu
 #   @Inputs:
 #       ordered_pop: output of the function calculate_fitness_and_order.
 #       mast_np: numpy array with the prices.
-#       min_number_of_genes: Minimum number of genes.
-#       max_number_of_genes: Maximum number of genes.
+#       min_number_of_genes: Minimum number of genes of the chromosome.
+#       max_number_of_genes: Maximum number of genes of the chromosome.
+#       max_num_gen_changed_crossover: Maximum number of genes that can be 
+#           taken of an individual in order to make the crossover.
 #       elitism_rate: percentage of elitism. 
 #       mutation_rate: Mutation rate per individual.
 #       mutation_type: It can be either:
@@ -501,11 +452,12 @@ def mutation(chrom, mast_np, mutation_type = 'both', num_gen_changed = 1, min_nu
 #           'addsub_gen': It is added or eliminated (randomly) a new element to
 #               an Individual.
 #           'both': 'mut_gen' and 'addsub_gen' are randomly applied.
-#       num_gen_changed: It is the number of genes that is changed, ie, the 
-#           number of genes that are added, substracted or changed by new ones.
+#       num_gen_changed_mutation: It is the number of genes that is changed, 
+#           ie, the number of genes that are added, substracted or changed by
+#           new ones in MUTATION.
 #   @Outputs:
 #       new_gen: List with the chromosomes of the new generation.
-def next_generation(ordered_pop, mast_np, min_number_of_genes, max_number_of_genes, elitism_rate = 0.05, mutation_rate = 0.4, mutation_type = 'both', num_gen_changed = 1):
+def next_generation(ordered_pop, mast_np, min_number_of_genes, max_number_of_genes, max_num_gen_changed_crossover = 2, elitism_rate = 0.05, mutation_rate = 0.4, mutation_type = 'both', num_gen_changed_mutation = 1):
     new_gen = [] #List with the chromosomes of the next generation
     num_elitism = int(len(ordered_pop)*elitism_rate) #Number of individuals chosen as elite
     num_cross = len(ordered_pop) - num_elitism #Number of individuals chosen for crossover
@@ -517,15 +469,15 @@ def next_generation(ordered_pop, mast_np, min_number_of_genes, max_number_of_gen
     #Crosover:
     selected_ind = roulette_selection(ordered_pop, num_cross) #1. Roulette selection
     paired_ind = pairing(selected_ind) #2. Perform the pairing
-    new_cross_ind = mating(paired_ind, ordered_pop, mast_np, min_number_of_genes, max_number_of_genes) #3. Get the new chromosomes already crossovered
+    new_cross_ind = mating(paired_ind, ordered_pop, mast_np, min_number_of_genes, max_number_of_genes, max_num_gen_changed_crossover) #3. Get the new chromosomes already crossovered
     new_gen.extend(new_cross_ind) #4. Add crossovered individuals
     #Mutation:
     num_mutated = int(len(ordered_pop)*mutation_rate) #Number of individuals chosen to be mutated
-    list_IDs = list(range(num_elitism, len(mast_np))) #All the IDs of the individuals that may be mutated (not the elite)
+    list_IDs = list(range(num_elitism, num_cross + num_elitism)) #All the IDs of the individuals that may be mutated (not the elite)
     shuffle(list_IDs)
     mut_IDs = list_IDs[:num_mutated] #Get list of IDs of chromosomes to be mutated
     for i in mut_IDs:
-        new_gen[i] = mutation(new_gen[i], mast_np, mutation_type, num_gen_changed, min_number_of_genes, max_number_of_genes)
+        new_gen[i] = mutation(new_gen[i], mast_np, mutation_type, num_gen_changed_mutation, min_number_of_genes, max_number_of_genes)
     return new_gen
 
 #########################
@@ -572,8 +524,10 @@ def max_num_generation_reached(gen_num, max_gen):
 #           chosen (eg. an enterprise) and each row an item in which that  
 #           entity participates. If it is a pandas df, then the colnames are   
 #           taken as the entities (for presentation of the results purposes).
-#       min_number_of_genes: Minimum number of genes.
-#       max_number_of_genes: Maximum number of genes.
+#       min_number_of_genes: Minimum number of genes of a chromosome.
+#       max_number_of_genes: Maximum number of genes of a chromosome.
+#       max_num_gen_changed_crossover: Maximum number of genes that can be 
+#           taken of an individual in order to make the crossover.
 #       termination_criteria: Termination criteria's function to call.
 #       elitism_rate: percentage of elitism. 
 #       mutation_rate: Mutation rate per individual.
@@ -582,9 +536,9 @@ def max_num_generation_reached(gen_num, max_gen):
 #           'addsub_gen': It is added or eliminated (randomly) a new element to
 #               an Individual.
 #           'both': 'mut_gen' and 'addsub_gen' are randomly applied.
-#       num_gen_changed: It is the number of genes that is changed, ie, the 
-#           number of genes that are added, substracted or changed by new ones, 
-#           when an individual is selected for mutation.
+#       num_gen_changed_mutation: It is the number of genes that is changed, 
+#           ie, the number of genes that are added, substracted or changed by 
+#           new ones, when an individual is selected for mutation.
 #       max_gen: (max_num_generation_reached) Maximum number of generations.
 #       min_item_per_row: If 1, it is calculated the minimum selection of items 
 #           (one item per row) for a given individual. If it is 0 the maximum is 
@@ -600,10 +554,10 @@ def max_num_generation_reached(gen_num, max_gen):
 #       RATING_TRANS: (fitness) List with the ordered rating of each 
 #           transportist.
 #   @Outputs:
-#       best_individual: Best Individual (of the class individual).
+#       best_individual_chromosome: Best Individual's chromosome.
 #       best_fit_per_gen: Array with the best individual per generation.
 #       pop: Whole population.
-def GA_oipr(num_individuals, df, min_number_of_genes, max_number_of_genes, termination_criteria  = 'max_num_generation_reached', elitism_rate = 0.1, mutation_rate = 0.2, mutation_type = 'both', num_gen_changed = 1, max_gen = 100, min_item_per_row = 1, minimize = 1, MAX_NUM_TRANS = 3, PENALIZATION = 0, PERCENT = 0, RATING_TRANS = None):
+def GA_oipr(num_individuals, df, min_number_of_genes, max_number_of_genes, max_num_gen_changed_crossover = 2, termination_criteria  = 'max_num_generation_reached', elitism_rate = 0.1, mutation_rate = 0.2, mutation_type = 'both', num_gen_changed_mutation = 1, max_gen = 100, min_item_per_row = 1, minimize = 1, MAX_NUM_TRANS = 3, PENALIZATION = 0, PERCENT = 0, RATING_TRANS = None):
     mast_np, colnames = get_master_np(df)
     if num_individuals*elitism_rate < 1: #Error if the number of individuals is not big enough...
         raise ValueError('With this elitism rate, it is needed, at least, ' + str(int(1/elitism_rate)) + ' individuals per generation')
@@ -613,19 +567,19 @@ def GA_oipr(num_individuals, df, min_number_of_genes, max_number_of_genes, termi
     calculate_fitness_and_order(pop, mast_np, min_item_per_row, minimize, MAX_NUM_TRANS, PENALIZATION, PERCENT, RATING_TRANS) #Calculate and order the initial population by fitness
     best_fit_per_gen.append(pop[0].fitness)
     if check_termination_criteria(termination_criteria, generation_num, max_gen):
-        return pop[0], best_fit_per_gen, pop
+        return pop[0].chromosome, best_fit_per_gen, pop
     while(not check_termination_criteria(termination_criteria, generation_num, max_gen)): #Run GA while the termination criteria is not met
         generation_num += 1 # Add 1 to the generation number
         print('Generation: ' + str(generation_num))
-        new_chromosomes = next_generation(pop, mast_np, min_number_of_genes, max_number_of_genes, elitism_rate, mutation_rate, mutation_type, num_gen_changed) #Get the new generation chromosomes
+        new_chromosomes = next_generation(pop, mast_np, min_number_of_genes, max_number_of_genes, max_num_gen_changed_crossover, elitism_rate, mutation_rate, mutation_type, num_gen_changed_mutation) #Get the new generation chromosomes
         for i in range(len(pop)):
             pop[i].chromosome = new_chromosomes[i] #Copy new generation
-        calculate_fitness_and_order(pop, mast_np, minimize, MAX_NUM_TRANS, PENALIZATION, PERCENT, RATING_TRANS) #Calculate and order the population by fitness
+        calculate_fitness_and_order(pop, mast_np, min_item_per_row, minimize, MAX_NUM_TRANS, PENALIZATION, PERCENT, RATING_TRANS) #Calculate and order the initial population by fitness
         best_fit_per_gen.append(pop[0].fitness)
-    return pop[0], best_fit_per_gen, pop
+    return pop[0].chromosome, best_fit_per_gen, pop
 
 #%%
-#a, b, c = GA_oipr(50, mast_np, min_number_of_genes = 3, max_number_of_genes = 5, PENALIZATION = 12111)
+a, b, c = GA_oipr(50, mast_np, min_number_of_genes = 3, max_number_of_genes = 5, PENALIZATION = 7000, minimize = 0)
 
 #%% TODO
     
@@ -636,59 +590,6 @@ def GA_oipr(num_individuals, df, min_number_of_genes, max_number_of_genes, termi
 # TODO_4: Revisar IMPORTANCIA_DIFF_TRANS
 # TODO_5: Fitness de MINLP y de GA no coinciden...
 
-
-
-
-#CALC_POSSIBLE_CROSSOVERS
-# Description: This function calculate the possible crossovers that give a 
-#   valid chromosome between two individuals. There are four possible types of 
-#   crossover, taking 1 element from individual A and 1 from individual B; 
-#   taking 2 elements from individual A and 1 from individual B; taking 1 
-#   element from individual A and 2 from individual B; taking 2 elements from
-#   individual A and 2 from individual B.
-#
-#   @Inputs:
-#       chrom_a: Individual A's chromosome.
-#       chrom_b: Individual B's chromosome.
-#       mast_np: numpy array with the prices.
-#       min_number_of_genes: Minimum number of genes.
-#       max_number_of_genes: Maximum number of genes.
-#       max_num_gen_changed: Maximum number of genes that can be taken 
-#           of an individual in order to make the crossover.
-#   @Outputs:
-#       pos_crossovers: List of tuples in which the first element has the 
-#           elements of ind_a that give a possible crossover and the second the
-#           elements of ind_b. Ie, the first element of the tuple belongs to 
-#           ind_a and should be put in ind_b, and viceversa.
-def calc_crossover(chrom_a, chrom_b, mast_np, min_number_of_genes, max_number_of_genes, max_num_gen_changed):
-    num_gen_a_interchanged = list(map(lambda x: x+1, list(range(max_num_gen_changed))))
-    shuffle(num_gen_a_interchanged) #random number of genes of a that are interchanged
-    num_gen_b_interchanged = list(map(lambda x: x+1, list(range(max_num_gen_changed)))) 
-    shuffle(num_gen_b_interchanged) #random number of genes of b that are interchanged
-    for num_a in num_gen_a_interchanged: #Take a random number of genes of individual a to interchange
-        for num_b in num_gen_b_interchanged: #Take a random number of genes of individual b to interchange
-            pairs_a = list(combinations(chrom_a, num_a)) #Get all the possible combinations of num_a elements in ind_a
-            pairs_b = list(combinations(chrom_b, num_b)) #Get all the possible combinations of num_b elements in ind_b
-            if not ((len(pairs_a) == 0) or (len(pairs_b) == 0)): #If there are no possible combination (more elements to interchange than the length of the list) -> THIS IS NOT SUPPOSED TO HAPPEN ANY TIME IF THE CROSSOVER IS DONE IN AN INTELLIGENT WAY...
-                if not(((len(chrom_a)-num_a+num_b) < min_number_of_genes) or ((len(chrom_b)-num_b+num_a) < min_number_of_genes) or ((len(chrom_a)-num_a+num_b) > max_number_of_genes) or ((len(chrom_b)-num_b+num_a) > max_number_of_genes)): #Too big/small chromosomes would be formed   
-                    shuffle(pairs_a)
-                    shuffle(pairs_b)
-                    for cross_a in pairs_a: #Take a random crossover possibility for individual a
-                        if not (True in [i in chrom_b for i in cross_a]): #Some of the genes of individual a that is going to be interchanged are NOT already in individual b (wouldn't be a crossover)           
-                            for cross_b in pairs_b: #Take a random crossover possibility for individual b
-                                if not (True in [i in chrom_a for i in cross_b]): #Some of the genes of individual b that is going to be interchanged are NOT already in individual a (wouldn't be a crossover)
-                                    crossed_1 = chrom_a.copy() #Crossed individual 1
-                                    crossed_2 = chrom_b.copy() #Crossed individual 2
-                                    for gen in cross_a: #Eliminate the genes of that were selected for crossover from ind a from crossed_1 and add them to crossed_2
-                                        crossed_1.remove(gen) 
-                                        crossed_2.append(gen)        
-                                    for gen in cross_b: #Eliminate the genes of that were selected for crossover from ind b from crossed_2 and add them to crossed_1
-                                        crossed_2.remove(gen) 
-                                        crossed_1.append(gen)              
-                                    if check_valid_chromosome(crossed_1, mast_np) and check_valid_chromosome(crossed_2, mast_np): #If the crossovers result in valid individuals, return them
-                                        return crossed_1, crossed_2
-    return chrom_a, chrom_b #If there are not possible crossovers, just return the two individuals
-  
 
 
 
