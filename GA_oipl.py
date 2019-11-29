@@ -1,5 +1,3 @@
-TODO: Hay que hacer que la función de pairing no empareje a un individuo consigo mismo y dividir en ficheros separados las funciones...
-
 # Ignacio Garrido Botella
 # This file includes all the functions needed to perform the GA operations:
 #   Selection
@@ -10,6 +8,7 @@ TODO: Hay que hacer que la función de pairing no empareje a un individuo consig
 #   Check termination criteria
 # For the completion of this code it has been very useful the work of 
 #   Cahit Bartu Yazici, showed in the post: https://towardsdatascience.com/continuous-genetic-algorithm-from-scratch-with-python-ff29deedd099
+
 import numpy as np
 import pandas as pd
 from random import random as rnd
@@ -261,6 +260,9 @@ def roulette_selection(ordered_pop, num_selected_ind):
     
 #PAIRING
 # Description: This function performs random pairing.
+#   NOTE that this function accepts repetitions and elements may be paired with 
+#   themselves. However, this rarely happens and can be used as a elite 
+#   process.
 #    
 #   @Inputs:
 #       list_selected_ind: List with the IDs of the selected individuals. It is
@@ -624,5 +626,3 @@ a, b, c = GA_oipr(2, mast_np, min_number_of_genes = 3, max_number_of_genes = 5, 
 
 pop = population(100, mast_np, 3, 5)
 calculate_fitness_and_order(pop, mast_np, minimize = 1, MAX_NUM_TRANS = 3, PENALIZATION = 0, PERCENT = 0, RATING_TRANS = [])
-
-
