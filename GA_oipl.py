@@ -1,6 +1,3 @@
-#TODO: Definir funcion mantener variabilidad y dividir en ficheros separados las funciones
-
-
 # Ignacio Garrido Botella
 # This file includes all the functions needed to perform the GA operations:
 #   Selection
@@ -262,6 +259,9 @@ def roulette_selection(ordered_pop, num_selected_ind):
     
 #PAIRING
 # Description: This function performs random pairing.
+#   NOTE that this function accepts repetitions and elements may be paired with 
+#   themselves. However, this rarely happens and can be used as a elite 
+#   process.
 #    
 #   @Inputs:
 #       list_selected_ind: List with the IDs of the selected individuals. It is
@@ -623,10 +623,19 @@ a, b, c = GA_oipr(2, mast_np, min_number_of_genes = 3, max_number_of_genes = 5, 
 # TODO_4: Revisar IMPORTANCIA_DIFF_TRANS
 # TODO_5: Fitness de MINLP y de GA no coinciden...
 
-
-
-
 pop = population(100, mast_np, 3, 5)
 calculate_fitness_and_order(pop, mast_np, minimize = 1, MAX_NUM_TRANS = 3, PENALIZATION = 0, PERCENT = 0, RATING_TRANS = [])
+
+
+
+
+
+
+
+
+
+
+
+
 
 
