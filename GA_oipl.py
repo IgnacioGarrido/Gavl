@@ -1,3 +1,5 @@
+TODO: Hay que hacer que la función de pairing no empareje a un individuo consigo mismo
+
 # Ignacio Garrido Botella
 # This file includes all the functions needed to perform the GA operations:
 #   Selection
