@@ -1,3 +1,6 @@
+#TODO: Definir funcion mantener variabilidad y dividir en ficheros separados las funciones
+
+
 # Ignacio Garrido Botella
 # This file includes all the functions needed to perform the GA operations:
 #   Selection
@@ -226,8 +229,6 @@ def calculate_fitness_and_order(pop, mast_np, min_item_per_row = 1, minimize = 1
         for ind in pop:
             ind.normalized_fitness = (ind.fitness-min_v)/(max_v-min_v)       
     pop.sort(key=lambda x: x.normalized_fitness, reverse=True) #Sort by normalized fitness
-#pop = population(100, mast_np, 3, 5)
-#calculate_fitness_and_order(pop, mast_np, minimize = 1, MAX_NUM_TRANS = 3, PENALIZATION = 0, PERCENT = 0, RATING_TRANS = [])
 
 ######################
 # PERFORM SELECTION: #
@@ -274,7 +275,7 @@ def pairing(list_selected_ind):
     shuffle(list_sel)
     paired_ind = []
     while len(list_sel) > 0:
-        paired_ind.append((list_sel.pop(), list_sel.pop()))
+        paired_ind.append((list_sel.pop(), list_sel.pop())) #There can be repetition of individuals (an individual may be paired with itself)
     return paired_ind
 
 ######################
@@ -510,6 +511,31 @@ def check_termination_criteria(termination_criteria, gen_num = None, max_gen = N
 def max_num_generation_reached(gen_num, max_gen):
     return (gen_num >= max_gen)
 
+###################
+# KEEP DIVERSITY: #
+###################
+
+#KEEP_DIVERSITY
+# Description: This function is called when it is wanted to do a great emphasis
+#   in the diversity of the problem. When an individual is repeated, this 
+#   repetition is substituted by a completely new and randomly generated 
+#   individual.
+#    
+#   @Inputs:
+#       ordered_pop: output of the function calculate_fitness_and_order.
+#       mast_np: numpy array with the prices.
+#       min_number_of_genes: Minimum number of genes of the chromosome.
+#       max_number_of_genes: Maximum number of genes of the chromosome.
+#   @Outputs:
+#       None
+def keep_diversity(ordered_pop, mast_np, min_number_of_genes, max_number_of_genes):
+    for x in ordered_pop: #Sort the individuals
+        x.chromosome.sort() 
+    list_chrom = [x.chromosome for x in ordered_pop]
+    for i in range(1,len(list_chrom)):
+        if ordered_pop[i].chromosome in list_chrom[:i]:
+            ordered_pop[i].chromosome = create_individual(min_number_of_genes, max_number_of_genes, mast_np).chromosome.copy()    
+
 ################################
 # GENETIC ALGORITHM EXECUTION: #
 ################################
@@ -540,6 +566,10 @@ def max_num_generation_reached(gen_num, max_gen):
 #           ie, the number of genes that are added, substracted or changed by 
 #           new ones, when an individual is selected for mutation.
 #       max_gen: (max_num_generation_reached) Maximum number of generations.
+#       diversity: If 1, then the function keep_diversity is called. In this 
+#           function it is checked if there are any repeated individuals, and 
+#           if so, the repetitions are substituted by a completely and randomly 
+#           generated new individual.
 #       min_item_per_row: If 1, it is calculated the minimum selection of items 
 #           (one item per row) for a given individual. If it is 0 the maximum is 
 #           calculated.
@@ -557,9 +587,10 @@ def max_num_generation_reached(gen_num, max_gen):
 #       best_individual_chromosome: Best Individual's chromosome.
 #       best_fit_per_gen: Array with the best individual per generation.
 #       pop: Whole population.
-def GA_oipr(num_individuals, df, min_number_of_genes, max_number_of_genes, max_num_gen_changed_crossover = 2, termination_criteria  = 'max_num_generation_reached', elitism_rate = 0.1, mutation_rate = 0.2, mutation_type = 'both', num_gen_changed_mutation = 1, max_gen = 100, min_item_per_row = 1, minimize = 1, MAX_NUM_TRANS = 3, PENALIZATION = 0, PERCENT = 0, RATING_TRANS = None):
+#       
+def GA_oipr(num_individuals, df, min_number_of_genes, max_number_of_genes, max_num_gen_changed_crossover = 2, termination_criteria  = 'max_num_generation_reached', elitism_rate = 0.1, mutation_rate = 0.2, mutation_type = 'both', num_gen_changed_mutation = 1, max_gen = 100, diversity = 1, min_item_per_row = 1, minimize = 1, MAX_NUM_TRANS = 3, PENALIZATION = 0, PERCENT = 0, RATING_TRANS = None):
     mast_np, colnames = get_master_np(df)
-    if num_individuals*elitism_rate < 1: #Error if the number of individuals is not big enough...
+    if num_individuals*elitism_rate < 1 and elitism_rate != 0: #Error if the number of individuals is not big enough...
         raise ValueError('With this elitism rate, it is needed, at least, ' + str(int(1/elitism_rate)) + ' individuals per generation')
     generation_num  = 0 #Initialize the generation counter to 0
     best_fit_per_gen = []
@@ -576,15 +607,17 @@ def GA_oipr(num_individuals, df, min_number_of_genes, max_number_of_genes, max_n
             pop[i].chromosome = new_chromosomes[i] #Copy new generation
         calculate_fitness_and_order(pop, mast_np, min_item_per_row, minimize, MAX_NUM_TRANS, PENALIZATION, PERCENT, RATING_TRANS) #Calculate and order the initial population by fitness
         best_fit_per_gen.append(pop[0].fitness)
+        if diversity:
+            keep_diversity(pop, mast_np, min_number_of_genes, max_number_of_genes)
     return pop[0].chromosome, best_fit_per_gen, pop
 
 #%%
-a, b, c = GA_oipr(50, mast_np, min_number_of_genes = 3, max_number_of_genes = 5, PENALIZATION = 7000, minimize = 0)
+a, b, c = GA_oipr(2, mast_np, min_number_of_genes = 3, max_number_of_genes = 5, PENALIZATION = 7000, minimize = 1, mutation_rate = 1, diversity = 1, elitism_rate = 0)
 
 #%% TODO
     
 # TODO_0: Hacer algo para mantener la diversidad -> Convergencia muy muy muy rápida
-# TODO_1: Controlar con algún heurístico que no haya ninguna ruta con todo nans (por ejemplo que haya al menos 3 transportistas por ruta o si no quitarla).
+# TODO_1: Controlar con algún heurístico que no haya ninguna ruta con todo nans...de primeras (por ejemplo que haya al menos 3 transportistas por ruta o si no quitarla).
 # TODO_2: Crear una población inicial con individuos únicos (sin repeticiones).
 # TODO_3: Test other selection/pairing/mating methods
 # TODO_4: Revisar IMPORTANCIA_DIFF_TRANS
@@ -593,5 +626,7 @@ a, b, c = GA_oipr(50, mast_np, min_number_of_genes = 3, max_number_of_genes = 5,
 
 
 
+pop = population(100, mast_np, 3, 5)
+calculate_fitness_and_order(pop, mast_np, minimize = 1, MAX_NUM_TRANS = 3, PENALIZATION = 0, PERCENT = 0, RATING_TRANS = [])
 
 
