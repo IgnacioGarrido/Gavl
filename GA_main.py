@@ -47,7 +47,7 @@ from GA_functions.diversity import keep_diversity
 #           -> Maximum number of generations.
 #       goal_fitness: (if termination criteria = goal_fitness_reached) -> 
 #           -> goal fitness
-#       diversity_5_gen: If 1, then the function keep_diversity is called every
+#       keep_diversity_5_gen: If 1, then the function keep_diversity is called every
 #           5 generations. In this function it is checked if there are any  
 #           repeated individuals, andif so, the repetitions are substituted by 
 #           a completely and randomly generated new individual.
@@ -68,7 +68,7 @@ from GA_functions.diversity import keep_diversity
 #       best_individual_chromosome: Best Individual's chromosome.
 #       best_fit_per_gen: Array with the best individual per generation.
 #       pop: Whole population.
-def GA_vl(num_individuals, df, min_number_of_genes, max_number_of_genes, max_num_gen_changed_crossover = 2, termination_criteria  = 'max_num_generation_reached', elitism_rate = 0.1, mutation_rate = 0.2, mutation_type = 'both', num_gen_changed_mutation = 1, max_gen = 100, goal_fitness = None, diversity_5_gen = 1, min_item_per_row = 1, minimize = 1, MAX_NUM_TRANS = 3, PENALIZATION = 0, PERCENT = 0, RATING_TRANS = []):           
+def GA_vl(num_individuals, df, min_number_of_genes, max_number_of_genes, max_num_gen_changed_crossover = 2, termination_criteria  = 'max_num_generation_reached', elitism_rate = 0.05, mutation_rate = 0.4, mutation_type = 'both', num_gen_changed_mutation = 1, max_gen = 100, goal_fitness = None, keep_diversity_5_gen = 1, min_item_per_row = 1, minimize = 1, MAX_NUM_TRANS = 3, PENALIZATION = 0, PERCENT = 0, RATING_TRANS = []):           
     mast_np, colnames = get_master_np(df)
     if num_individuals*elitism_rate < 1 and elitism_rate != 0: #Error if the number of individuals is not big enough...
         raise ValueError('With this elitism rate, it is needed, at least, ' + str(int(1/elitism_rate)) + ' individuals per generation')
@@ -88,6 +88,6 @@ def GA_vl(num_individuals, df, min_number_of_genes, max_number_of_genes, max_num
             pop[i].chromosome = new_chromosomes[i] #Copy new generation
         calculate_fitness_and_order(pop, mast_np, min_item_per_row, minimize, MAX_NUM_TRANS, PENALIZATION, PERCENT, RATING_TRANS) #Calculate and order the initial population by fitness
         best_fit_per_gen.append(pop[0].fitness)
-        if diversity_5_gen and generation_num%5 == 0: #Every 5 generations check diversity criteria
+        if keep_diversity_5_gen and generation_num%5 == 0: #Every 5 generations check diversity criteria
             keep_diversity(pop, mast_np, min_number_of_genes, max_number_of_genes)
     return pop[0].chromosome, best_fit_per_gen, pop
