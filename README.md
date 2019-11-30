@@ -5,7 +5,7 @@ This repository contains the files needed to perform a genetic algorithm in whic
 How to use:
     1. Download the files:
     
-    ```shell
+    ```
         git clone https://github.com/IgnacioGarrido/GA_chromosomeWithVariableLength.git
     ```
     
