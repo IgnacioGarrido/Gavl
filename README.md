@@ -139,7 +139,7 @@ It may be wanted to base the decision in some heuristics. For so, the fitness is
 
 * ```penalization_rating```: It may be wanted to penalize each distributor by a ranking. For so it can be specified the ratings of each item to be selected (distributor in the above table) as (pass this value to ```GA_vl()```):
 
-	- RATING_TRANS: List with the rating of each distributor. For example, if the *minimize = 1* and *RATING_TRANS = [1,  1.2, 1.2, 1, 1, 1.2]* for the above table, it would mean that there is a small penalization for choosing the Distributors 2, 3 and 6.
+	- RATING_TRANS: List with the rating of each distributor. For example, if *minimize = 1* and *RATING_TRANS = [1,  1.2, 1.2, 1, 1, 1.2]* for the above table, it would mean that there is a small penalization for choosing the Distributors 2, 3 and 6.
 	- PENALIZATION: Weight of this penalization -> Note that if *PENALIZATION = 0* this term does not affect the fitness.
 	
 	The definition of this term is showed in the next equation:
