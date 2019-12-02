@@ -56,21 +56,21 @@ from GA_functions.diversity import keep_diversity
 #           calculated.
 #       minimize: If 1 the fitness value is inverse normalized, ie, higher
 #           value mappped to 0 and lower to 1.
-#       MAX_LENGTH_CHROM: (fitness) Maximum length of the chromosome up to
+#       MAX_LENGTH_CHROM: (fitness) Maximum lenght of the chromosome up to 
 #           which there is no penalization.
 #       PENALIZATION_LENGTH: (fitness) Penalization value per each new 
-#           transportist over the limit MAX_NUM_TRANS.
+#           element to be chosen over the limit MAX_LENGTH_CHROM.
 #       PERCENT: (fitness) Percentage of the total cost that penalizes each  
-#           extra new trasnportists.
+#           extra new element chosen over the limit MAX_LENGTH_CHROM.
 #       PENALIZATION_RATING: (fitness) Penalization value per each bad 
-#           transportist in the rating.
-#       RATING_TRANS: (fitness) List with the ordered rating of each 
-#           transportist.
+#           element in the rating (RATING_CHROM).
+#       RATING_CHROM: (fitness) List with the ordered rating of each 
+#           element.
 #   @Outputs:
 #       best_individual_chromosome: Best Individual's chromosome.
 #       best_fit_per_gen: Array with the best individual per generation.
 #       pop: Whole population.
-def GA_vl(num_individuals, df, min_number_of_genes, max_number_of_genes, max_num_gen_changed_crossover = 2, termination_criteria  = 'max_num_generation_reached', elitism_rate = 0.05, mutation_rate = 0.4, mutation_type = 'both', num_gen_changed_mutation = 1, max_gen = 100, goal_fitness = None, keep_diversity_5_gen = 1, min_item_per_row = 1, minimize = 1, MAX_LENGTH_CHROM = 3, PENALIZATION_LENGTH = 0, PERCENT = 0, PENALIZATION_RATING = 0, RATING_TRANS = []):           
+def GA_vl(num_individuals, df, min_number_of_genes, max_number_of_genes, max_num_gen_changed_crossover = 2, termination_criteria  = 'max_num_generation_reached', elitism_rate = 0.05, mutation_rate = 0.4, mutation_type = 'both', num_gen_changed_mutation = 1, max_gen = 100, goal_fitness = None, keep_diversity_5_gen = 1, min_item_per_row = 1, minimize = 1, MAX_LENGTH_CHROM = 3, PENALIZATION_LENGTH = 0, PERCENT = 0, PENALIZATION_RATING = 0, RATING_CHROM = []):           
     mast_np, colnames = get_master_np(df)
     if num_individuals*elitism_rate < 1 and elitism_rate != 0: #Error if the number of individuals is not big enough...
         raise ValueError('With this elitism rate, it is needed, at least, ' + str(int(1/elitism_rate)) + ' individuals per generation')
@@ -78,7 +78,7 @@ def GA_vl(num_individuals, df, min_number_of_genes, max_number_of_genes, max_num
     print('Generation: ' + str(generation_num))
     best_fit_per_gen = []
     pop = population(num_individuals, mast_np, min_number_of_genes, max_number_of_genes) #Creation of the initial population
-    calculate_fitness_and_order(pop, mast_np, min_item_per_row, minimize, MAX_LENGTH_CHROM, PENALIZATION_LENGTH, PERCENT, PENALIZATION_RATING, RATING_TRANS) #Calculate and order the initial population by fitness
+    calculate_fitness_and_order(pop, mast_np, min_item_per_row, minimize, MAX_LENGTH_CHROM, PENALIZATION_LENGTH, PERCENT, PENALIZATION_RATING, RATING_CHROM) #Calculate and order the initial population by fitness
     best_fit_per_gen.append(pop[0].fitness)
     if check_termination_criteria(termination_criteria, generation_num, max_gen, pop[0].fitness, goal_fitness, minimize):
         index_to_colname(pop, colnames)
@@ -89,10 +89,10 @@ def GA_vl(num_individuals, df, min_number_of_genes, max_number_of_genes, max_num
         new_chromosomes = next_generation(pop, mast_np, min_number_of_genes, max_number_of_genes, max_num_gen_changed_crossover, elitism_rate, mutation_rate, mutation_type, num_gen_changed_mutation) #Get the new generation chromosomes
         for i in range(len(pop)):
             pop[i].chromosome = new_chromosomes[i] #Copy new generation
-        calculate_fitness_and_order(pop, mast_np, min_item_per_row, minimize, MAX_LENGTH_CHROM, PENALIZATION_LENGTH, PERCENT, PENALIZATION_RATING, RATING_TRANS) #Calculate and order the initial population by fitness
+        calculate_fitness_and_order(pop, mast_np, min_item_per_row, minimize, MAX_LENGTH_CHROM, PENALIZATION_LENGTH, PERCENT, PENALIZATION_RATING, RATING_CHROM) #Calculate and order the initial population by fitness
         best_fit_per_gen.append(pop[0].fitness)
         if keep_diversity_5_gen and generation_num%5 == 0: #Every 5 generations check diversity criteria
             keep_diversity(pop, mast_np, min_number_of_genes, max_number_of_genes)
-            calculate_fitness_and_order(pop, mast_np, min_item_per_row, minimize, MAX_LENGTH_CHROM, PENALIZATION_LENGTH, PERCENT, PENALIZATION_RATING, RATING_TRANS) #Calculate and order the initial population by fitness
+            calculate_fitness_and_order(pop, mast_np, min_item_per_row, minimize, MAX_LENGTH_CHROM, PENALIZATION_LENGTH, PERCENT, PENALIZATION_RATING, RATING_CHROM) #Calculate and order the initial population by fitness
     index_to_colname(pop, colnames)
     return pop[0].chromosome, best_fit_per_gen, pop

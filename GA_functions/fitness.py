@@ -22,28 +22,29 @@ from .aux_functions import calculate_min_row, calculate_max_row
 #       min_item_per_row: If 1, it is calculated the minimum selection of items 
 #       (one item per row) for a given individual. If it is 0 the maximum is 
 #       calculated.
-#       MAX_LENGTH_CHROM: Maximum length of the chromosome up to which there is 
-#           no penalization.
+#       MAX_LENGTH_CHROM: (fitness) Maximum lenght of the chromosome up to 
+#           which there is no penalization.
 #       PENALIZATION_LENGTH: (fitness) Penalization value per each new 
-#           transportist over the limit MAX_NUM_TRANS.
+#           element to be chosen over the limit MAX_LENGTH_CHROM.
 #       PERCENT: (fitness) Percentage of the total cost that penalizes each  
-#           extra new trasnportists.
+#           extra new element chosen over the limit MAX_LENGTH_CHROM.
 #       PENALIZATION_RATING: (fitness) Penalization value per each bad 
-#           transportist in the rating.
-#       RATING_TRANS: List with the ordered rating of each transportist.
+#           element in the rating (RATING_CHROM).
+#       RATING_CHROM: (fitness) List with the ordered rating of each 
+#           element.
 #   @Outputs:
 #       fitness_val: Value of the fitness  
-def fitness(chrom, mast_np, min_item_per_row = 1, MAX_LENGTH_CHROM = 3, PENALIZATION_LENGTH = 0, PERCENT = 0, PENALIZATION_RATING = 0, RATING_TRANS = []):
+def fitness(chrom, mast_np, min_item_per_row = 1, MAX_LENGTH_CHROM = 3, PENALIZATION_LENGTH = 0, PERCENT = 0, PENALIZATION_RATING = 0, RATING_CHROM = []):
     if min_item_per_row:
         price = calculate_min_row(chrom, mast_np)
     else:
         price = calculate_max_row(chrom, mast_np)
-    if RATING_TRANS == []: #If empty list -> the array of 0s
-        RATING_TRANS = [0]*mast_np.shape[1]
+    if RATING_CHROM == []: #If empty list -> the array of 0s
+        RATING_CHROM = [0]*mast_np.shape[1]
     #pen_num_trans = PENALIZATION_LENGTH*((max(MAX_NUM_TRANS,len(chrom))-MAX_NUM_TRANS)**2) #Penalization for the number of transportists, squared
     pen_num_trans = PENALIZATION_LENGTH*(max(MAX_LENGTH_CHROM,len(chrom))-MAX_LENGTH_CHROM) #Penalization for the number of transportists, linear
     pen_percent = price*(max(MAX_LENGTH_CHROM,len(chrom))-MAX_LENGTH_CHROM)*PERCENT #Penalization as a percentage of the total cost for each extra transportist
-    pen_rating = PENALIZATION_RATING*sum([RATING_TRANS[i] for i in chrom])/len(chrom) #Penalization for the rating of the transportists
+    pen_rating = PENALIZATION_RATING*sum([RATING_CHROM[i] for i in chrom])/len(chrom) #Penalization for the rating of the transportists
     fitness_val = price + pen_num_trans + pen_percent + pen_rating 
     return fitness_val
 
@@ -62,21 +63,22 @@ def fitness(chrom, mast_np, min_item_per_row = 1, MAX_LENGTH_CHROM = 3, PENALIZA
 #       minimize: If 1 the fitness value is inverse normalized, i.e, higher
 #           values mappped to 0 and lower to 1. Otherwise it is normaly
 #           normalized.
-#       MAX_LENGTH_CHROM: Maximum lenght of the chromosome up to which there is 
-#           no penalization.
+#       MAX_LENGTH_CHROM: (fitness) Maximum lenght of the chromosome up to 
+#           which there is no penalization.
 #       PENALIZATION_LENGTH: (fitness) Penalization value per each new 
-#           transportist over the limit MAX_NUM_TRANS.
+#           element to be chosen over the limit MAX_LENGTH_CHROM.
 #       PERCENT: (fitness) Percentage of the total cost that penalizes each  
-#           extra new trasnportists.
+#           extra new element chosen over the limit MAX_LENGTH_CHROM.
 #       PENALIZATION_RATING: (fitness) Penalization value per each bad 
-#           transportist in the rating.
-#       RATING_TRANS: List with the ordered rating of each transportist.
+#           element in the rating (RATING_CHROM).
+#       RATING_CHROM: (fitness) List with the ordered rating of each 
+#           element.
 #   @Outputs:
 #       None
-def calculate_fitness_and_order(pop, mast_np, min_item_per_row = 1, minimize = 1, MAX_LENGTH_CHROM = 3, PENALIZATION_LENGTH = 0, PERCENT = 0, PENALIZATION_RATING = 0, RATING_TRANS = []):
+def calculate_fitness_and_order(pop, mast_np, min_item_per_row = 1, minimize = 1, MAX_LENGTH_CHROM = 3, PENALIZATION_LENGTH = 0, PERCENT = 0, PENALIZATION_RATING = 0, RATING_CHROM = []):
     for ind in pop:
         chrom = ind.chromosome
-        ind.fitness = fitness(chrom, mast_np, min_item_per_row, MAX_LENGTH_CHROM, PENALIZATION_LENGTH, PERCENT, PENALIZATION_RATING, RATING_TRANS)
+        ind.fitness = fitness(chrom, mast_np, min_item_per_row, MAX_LENGTH_CHROM, PENALIZATION_LENGTH, PERCENT, PENALIZATION_RATING, RATING_CHROM)
     max_v = max(list(map(lambda x: x.fitness, pop)))
     min_v = min(list(map(lambda x: x.fitness, pop)))
     if max_v != min_v: #There is no 0-division
