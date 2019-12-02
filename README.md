@@ -14,7 +14,7 @@ This repository contains a python program that performs a genetic algorithm in w
 ```
   3. Call the GA:
 ```python
-	best_chrom, historic_fitness, pop = GA_vl(num_individuals = 100, df = mast_np, min_number_of_genes = 3, max_number_of_genes = 5, PENALIZATION = 7000)
+	best_chrom, historic_fitness, pop = GA_vl(num_individuals = 100, df = my_dataframe, min_number_of_genes = 3, max_number_of_genes = 5, PENALIZATION_LENGTH = 7000)
 ```
 Where:
 - best_chrom: Chromosome of the best individual.
@@ -45,10 +45,11 @@ Where:
 * keep_diversity_5_gen: *(See keep diversity section below)* If 1, then the function keep_diversity is called every 5 generations. In this function it is checked if there are any repeated individuals, and if so, these repetitions are substituted by a completely and randomly generated new individual. *(default value: 1)*
 * min_item_per_row: *(used to calculate the fitness -> See in the fitness section below)* If 1, it is calculated the minimum combination of items of the passed dataframe (one item per row) for a given individual. If it is 0 the maximum is calculated. For example, if *min_item_per_row = 1*, for the individual [1,5,8] it would be calculated the minimum combination of items (one item per row) for the combination of the columns 1, 5 and 8 of the passed dataframe *df*. *(default value: 1)*
 * minimize: *(used to calculate the fitness -> See in the fitness section below)* If 1, the goal would be to minimize the fitness, and if 0, the goal would be maximizing the fitness. If 1 the fitness value is inverse normalized, ie, higher value mappped to 0 and lower to 1. *(default value: 1)*
-* MAX_NUM_TRANS: *(used to calculate the fitness -> See in the fitness section below)* Maximum length of the chromosome up to which there is no penalization. *(default value: 3)*
-* PENALIZATION: *(used to calculate the fitness -> See in the fitness section below)* Penalization value per each new extra item (extra with respect to *MAX_NUM_TRANS*) in the chromosome (or for their rating). *(default value: 0)*
-* PERCENT: *(used to calculate the fitness -> See in the fitness section below)* Percentage of the total cost that penalizes each extra item (extra with respect to *MAX_NUM_TRANS*). *(default value: 0)*
-* RATING_TRANS: *(used to calculate the fitness -> See in the fitness section below)* List with the ordered rating of each item represented in the columns. *(default value: [])*
+* MAX_LENGTH_CHROM: *(used to calculate the fitness -> See in the fitness section below)* Maximum length of the chromosome up to which there is no penalization. *(default value: 3)*
+* PENALIZATION_LENGTH: *(used to calculate the fitness -> See in the fitness section below)* Penalization value per each new extra item (extra with respect to *MAX_LENGTH_CHROM*) in the chromosome (or for their rating). *(default value: 0)*
+* PERCENT: *(used to calculate the fitness -> See in the fitness section below)* Percentage of the total cost that penalizes each extra item (extra with respect to *MAX_LENGTH_CHROM*). *(default value: 0)*
+* PENALIZATION_RATING: *(used to calculate the fitness -> See in the fitness section below)* Penalization value for each individual according to its rating (rating with respect to *RATING_CHROM*) in the chromosome (or for their rating). *(default value: 0)*
+* RATING_CHROM: *(used to calculate the fitness -> See in the fitness section below)* List with the ordered rating of each item represented in the columns. *(default value: [])*
 
 ## The algorithm
 
