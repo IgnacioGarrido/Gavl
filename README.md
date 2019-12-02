@@ -68,7 +68,7 @@ For example, suppose that it is given the next table in which it is represented 
 | Apples  | 4.00          | 4.55          | 3.85          | NaN           | 4.05          | NaN           |
 | Bread   | 2.05          | 1.99          | NaN           | 1.70          | 2.5           | 1.90          |
 | Tomato  | 5.15          | 4.85          | NaN           | 5.00          | NaN           | 4.95          |
-| Onions  | 2.50          | 2.45          | 2.75          | 2.60          | 2.60          | 2.80          |
+| Onions  | 2.50          | 2.45          | 2.75          | 2.60          | 2.30          | 2.80          |
 | Bananas | 3.50          | NaN           | 3.55          | 3.40          | 3.70          | 3.75          |
 | Pie     | NaN           | 10.50         | NaN           | 11.00         | 10.50         | NaN           |
 
@@ -88,9 +88,12 @@ class Individual:
 ```
 
 Each individual has three attributes:
-	- Chromosome: Is a variable length list (length between the limits [*min_number_of_genes, max_number_of_genes*] passed to the function ```GA_vl()```). Each element of the list represents an entity to be selected. For example, given the example of the previous table, the chromosome [1,5,6] would represent that it has been selected the distributors 1, 5 and 6.
-	- Fitness: Fitness value according to the defined heuristics (see fitness section below).
-	- Normalized_fitness: Normalized fitness. If the value of the parameter *minimize* passed to the function ```GA_vl()``` is 1, the fitness is inverse normalized (the minimum value of fitness of the population is normalized to 1, and the biggest is normalized to 0) and viceversa.
+
+- Chromosome: Is a variable length list (length between the limits [*min_number_of_genes, max_number_of_genes*] passed to the function ```GA_vl()```). Each element of the list represents an entity to be selected. For example, given the previous table, the chromosome [1,5,6] would represent that it has been selected the distributors 1, 5 and 6.
+
+- Fitness: Fitness value according to the defined heuristics (see fitness section below).
+
+- Normalized_fitness: Normalized fitness. If the value of the parameter *minimize* passed to the function ```GA_vl()``` is 1, the fitness is inverse normalized (the minimum value of fitness of the population is normalized to 1, and the biggest is normalized to 0) and viceversa.
 
 Of course, the individuals are randomly generated in the first generation.
 
@@ -108,6 +111,47 @@ If it is wanted to program any other pairing method, it should be changed the fu
 
 ### Fitness
 
+It may be wanted to base the decision in some heuristics. For so, the fitness is calculated as the addition of the next terms:
+
+* ```best_selection``` for a given individual: Given a table like the one presented above, it is calculated the minimum (or maximum if the parameter *minimum = 0* passed to the function ```GA_vl()```) selection of items for a given individual. For example, given the individual [1,5,6] it would be calculated the minimum combination of prices of Distributor 1, Distributor 5 and Distributor 6 that fulfills all the orders (It would be 4.00 (d1 - apples) + 1.90 (d6 - bread) + 4.95 (d6 - tomato) + 2.30 (d5 - onions) + 3.50 (d1 - bananas) + 10.50 (d5 - pie)).
+
+* ```penalization_length```: It may be wanted to reward those individuals that have lower lengths (it may be preferred a smaller number of distributors (it makes no sense to have a too big number of distributors for a shop) if it only increases the total price a little bit). For so, it is defined two parameters that can be passed to the function ```GA_vl()```:
+
+	- MAX_NUM_TRANS: Maximum length of the chromosome up to which there is no penalization.
+	- PENALIZATION: Weight of this penalization that is added to the fitness function for each additional item in the chromosome. -> Note that if *PENALIZATION = 0* this term does not affect the fitness.
+	
+	The definition of this term is showed in the next equation:
+	
+	```penalization_length = PENALIZATION*(max(len(chromosome), MAX_NUM_TRANS) - MAX_NUM_TRANS)```
+	
+	Note that the terms MAX_NUM_TRANS and PENALIZATION should be defined to keep a good tradeoff between the length of the chromosome and the total cost.
+
+* ```penalization_as_percentage```: It may also be wanted to define the penalization as a percentage of the total cost. This can be reasoned as someone may say "I don´t mind paying an X% more on the total price if I have one distributor less". This person may prefer an slightly bigger total price if it supposes lowering the total number of dsitributors chosen. This term is measuring that increase in the price as a percentage in the total price. For so, it is defined one parameters that can be passed to the function ```GA_vl()```:
+
+	- MAX_NUM_TRANS: Maximum length of the chromosome up to which there is no penalization.
+	- PERCENT: percentage of the total price that doesn't supposes a problem for each distributor less. -> Note that if *PERCENT = 0* this term does not affect the fitness.
+	
+	The definition of this term is showed in the next equation:
+	
+	```penalization_as_percentage = PERCENT*(max(len(chromosome), MAX_NUM_TRANS) - MAX_NUM_TRANS)*best_selection```
+
+	Being ```best_selection``` is defined above. Note that the terms MAX_NUM_TRANS and PERCENT should be defined to keep a good tradeoff between the length of the chromosome and the total cost.
+
+* ```penalization_rating```: It may be wanted to penalize each distributor by a ranking. For so it can be specified the ratings of each item to be selected (distributor in the above table) as (pass this value to ```GA_vl()```):
+
+	- RATING_TRANS: List with the rating of each distributor. For example, if the *minimize = 1* and *RATING_TRANS = [1,  1.2, 1.2, 1, 1, 1.2]* for the above table, it would mean that there is a small penalization for choosing the Distributors 2, 3 and 6.
+	- PENALIZATION: Weight of this penalization -> Note that if *PENALIZATION = 0* this term does not affect the fitness.
+	
+	The definition of this term is showed in the next equation:
+
+	```penalization_rating = PENALIZATION*(sum(RATING_TRANS)/len(chromosome))```
+
+	Note that the terms RATING_TRANS and PENALIZATION should be defined to keep a good tradeoff between the length of the chromosome and the total cost.
+	
+With this, it is defined the total fitness function as the addition of all the previous terms:
+
+```Fitness = best_selection + penalization_length + penalization_as_percentage + penalization_rating```
+
 ### Crossover
 
 ### Mutation
@@ -121,6 +165,6 @@ keep_diversity_5_gen: *(See keep diversity section below)* If 1, then the functi
 
 ### Functions that may be needed to be defined again if some part of the project is changed
 
-- check_valid_cromosome (in *GA_functions/aux_functions.py*): It receives a chromosome and the dataframe. This function defines what a valid chromosome is. If the passed chromosome is valid, then it returns *True* and if it is invalid it returns *False*. In the current definition of this function it is defined as a valid individual one that covers with at least one possible selection of an item for all of the rows. For example, passed the dataframe *df*, the individual [1,5,8] would be valid if there is NO row of ```df[:,[1,5,8]]``` that has all its items equal to NaN.
+- ```check_valid_cromosome``` (in *GA_functions/aux_functions.py*): It receives a chromosome and the dataframe. This function defines what a valid chromosome is. If the passed chromosome is valid, then it returns *True* and if it is invalid it returns *False*. In the current definition of this function it is defined as a valid individual one that covers with at least one possible selection of an item for all of the rows. For example, passed the dataframe *df*, the individual [1,5,8] would be valid if there is NO row of ```df[:,[1,5,8]]``` that has all its items equal to NaN.
 
 
