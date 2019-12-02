@@ -110,6 +110,8 @@ The only performed pairing method is random pairing given a selection.
 
 If it is wanted to program any other pairing method, it should be changed the function ```pairing()``` defined in the file *GA_functions/pairing.py*. If other name is given to this new pairing function, it should be changed its calling inside the function ```next_generation()``` in the file *GA_function/next_generation.py*. Note that if a new function of pairing of individuals is made, it should return a list with the paired individuals in tuples. For example, given a selection of individuals given by [4,60,36,44,15,22] this pairing method could return a pairing like [(4,36),(15,22),(60,44)].
 
+*Note that with this pairing method there can be repeated individuals and one may be paired with itself. However, this rarely happens. Even more, if keep_diversity_5_gen = 1 (argument of the function ```GA_vl()```) it is even more improbable that this happens.*
+
 ### Fitness
 
 It may be wanted to base the decision in some heuristics. For so, the fitness is calculated as the addition of the next terms:
@@ -155,17 +157,73 @@ With this, it is defined the total fitness function as the addition of all the p
 
 ### Crossover
 
+The crossover is defined in the file *GA_functions/crossover.py*. Once paired the individuals, it is first called the function ```mating()``` that calls the function ```cross_ind()``` in order to cross, when possible, all the pairs of individuals. 
+
+First, the next configuration parameters are defined (passed to the function ```GA_vl()```):
+
+* min_number_of_genes: Minimum number of genes of a chromosome (minimum allowed length of a chromosome). *(default value: 3)*
+* max_number_of_genes: Maximum number of genes of a chromosome (maximum allowed length of a chromosome). *(default value: 5)*
+* **max_num_gen_changed_crossover**: Maximum number of genes that can be taken of an individual in order to make the crossover. *(default value: 2)*
+
+The next steps are followed in order to perform the crossover of the individuals ***ind_a*** and ***ind_b***:
+
+1. It is taken a random number (*num_gen_a*) between 1 and *max_num_gen_changed_crossover* that indicates the number of genes of individual *ind_a* that will be copied in individual *ind_b*. Similarly, it is taken another random number (*num_gen_b*) between 1 and *max_num_gen_changed_crossover* that indicates the number of genes of *ind_b* that will be copied in *ind_a*. Note that the number of genes copied from *ind_a* to *ind_b*, ie, *num_gen_a*, may be different from the number of genes copied from *ind_b* to *ind_a*, ie, *num_gen_b*.
+
+2. It is calculated all the possible combinations of length *num_gen_a* of the genes of *ind_a* and it is taken one randomly. Similarly, it is calculated all the possible combinations of length *num_gen_b* of the genes of *ind_b* and it is taken one randomly. Note that if *num_gen_a* is bigger than the length of *ind_a* or if *num_gen_b* is bigger than the length of *ind_b*, there would not be any possible combination of elements. If this happens, **step 1** would be repeated for another different and random *num_gen_a* or *num_gen_b* (the limiting one).
+
+3. It is tested if the copying of *num_gen_a* genes in *ind_b* or *num_gen_b* genes in *ind_a* would lead to an individual with a length over or under the limits *min_number_of_genes* and *max_number_of_genes* (arguments passed to the function ```GA_vl()```). If so, it is repeated **step 1** for another different and random *num_gen_a* or *num_gen_b* (the limiting one). This condition is calculated in the next way:
+
+```python
+	min_number_of_genes <= (len(ind_a) - num_gen_a + num_gen_b) <= max_number_of_genes
+	min_number_of_genes <= (len(ind_b) - num_gen_b + num_gen_a) <= max_number_of_genes
+```
+
+4. It is taken one of the random combinations of genes (to be crossed) of *ind_a* that were calculated in **step 2**. If none of those genes of *ind_a* selected to be interchanged are in *ind_b*, then they are copied in *ind_b*. However, if any gene of that randomly taken combinations of genes of *ind_a* is already in *ind_b*, it is taken another different combination of genes from *ind_a* to be copied in *ind_b*. The same is done with the combinations of genes to be copied from *ind_b* into *ind_a*. If a possible combination is found, then the genes are interchanged between the individuals *ind_a* and *ind_b*. Note that all the combinations of genes of length *num_gen_a* from *ind_a* and *num_gen_b* from *ind_b* are tested until one possible combination is found. If no possible combination is found, then it is repeated **step 1** for another different and random *num_gen_a* or *num_gen_b*.
+
+5. Once the genes are interchaged, it is tested if the new individuals are valid individuals. This is done by calling the function ```check_valid_cromosome()``` located in *GA_functions/aux_functions.py*. If any of the new individuals is not valid, it is repeated **step 4** for another combination of genes. 
+
+	*Note that the current definition of ```check_valid_cromosome()``` in this project is defined below (in the paragraph 'Functions that may be needed to be defined again if some part of the project is changed'). Depending in the caracteristics of the problem, this function may be needed to be defined again.*
+
+6. When a possible crossover has been found, return the new crossed individuals. 
+
+*Note that with this crossover it is not only being tested new combinations of genes in the individual, but also new length of these new individuals (lengths that are dependant on the lengths of the two crossed individuals).*
+
 ### Mutation
+
+The mutation is defined in the file *GA_functions/mutation.py*. First, the next configuration parameters are defined (passed to the function ```GA_vl()```):
+
+* mutation_type: Type of mutation (explained below). *(default value: 'both')*
+* num_gen_changed_mutation: It is the number of genes that is changed, ie, the number of genes that are mutated, when an individual is selected for mutation. *(default value: 1)*
+* min_number_of_genes: Minimum number of genes of a chromosome (minimum allowed length of a chromosome). *(default value: 3)*
+* max_number_of_genes: Maximum number of genes of a chromosome (maximum allowed length of a chromosome). *(default value: 5)*
+
+It has been defined two kinds of mutations:
+
+* In gene (*mutation_type = 'mut_gen'*): It is selected randomly *num_gen_changed_mutation* genes of the chromosome and they are changed by *num_gen_changed_mutation* random genes. Consequently, it is checked if this is a valid individual, and if so, the individual is returned. Note that the length of the individual is the same in this kind of mutation. 
+
+* In length (*mutation_type = 'addsub_gen'*): The quality of the chromosome in this GA is also dependant on the length. Because of that, it is also allowed mutations in the length of the chromosome. It is either added or eliminated (add or eliminate is randomly selected for each mutated individual) a as many genes as indicated by *num_gen_changed_mutation*. Consequently, it is checked if this is a valid individual, and if so, the individual is returned. Note that the new inividual would be valid if its length is between *min_number_of_genes* and *max_number_of_genes* and if ```check_valid_chromosome()``` returns True.
+
+In the current project it has been also added the possibility of randomly selecting one of both mutation methods. If *mutation_type = 'both'* it would be selected either length mutation or gene mutation randomly for each selected individual.
 
 ### Keep diversity
 
-It may be wanted to make a great emphasis in keeping the diversity. For so, it has been defined the function ```keep_diversity()```in the file *G*
+It may be wanted to make a great emphasis in keeping the diversity (diversity is usually one of the biggest problems of this algorithm). For so, it has been defined the function ```keep_diversity()```in the file *GA_functions/diversity.py*. This function is called when the argument *keep_diversity_5_gen = 1* of the function ```GA_vl()```.
 
-keep_diversity_5_gen: *(See keep diversity section below)* If 1, then the function keep_diversity is called every 5 generations. In this function it is checked if there are any repeated individuals, and if so, these repetitions are substituted by a completely and randomly generated new individual. *(default value: 1)*
+keep_diversity_5_gen: *(See keep diversity section below)* If 1, then the function ```keep_diversit()``` is called every 5 generations. In this function it is checked if there are any repeated individuals, and if so, these repetitions are substituted by a completely and randomly generated new individual. *(default value: 1)*
 
 
 ### Functions that may be needed to be defined again if some part of the project is changed
 
-- ```check_valid_cromosome``` (in *GA_functions/aux_functions.py*): It receives a chromosome and the dataframe. This function defines what a valid chromosome is. If the passed chromosome is valid, then it returns *True* and if it is invalid it returns *False*. In the current definition of this function it is defined as a valid individual one that covers with at least one possible selection of an item for all of the rows. For example, passed the dataframe *df*, the individual [1,5,8] would be valid if there is NO row of ```df[:,[1,5,8]]``` that has all its items equal to NaN.
+Depending on the caracteristics of the problem, it may be wanted to change the definition of the next functions:
 
+- ```check_valid_chromosome ()``` (defined in *GA_functions/aux_functions.py*): It receives a chromosome and the dataframe. This function defines what a valid chromosome is. If the passed chromosome is valid, then it returns *True* and if it is invalid it returns *False*. In the current definition of this function it is defined as a valid individual one that covers with at least one possible selection of an item for all of the rows. For example, passed the dataframe *df*, the individual [1,5,8] would be valid if there is NO row of ```df[:,[1,5,8]]``` that has all its items equal to NaN.
 
+- ```fitness()``` (defined in *GA_functions/fitness.py*): In this function it is defined the fitness. It receives the chromosome, the passed dataframe to the GA and some other additional configuration parameters. If it is alse wanted to chanhge some of these configuration parameters (not leaving them open), they would also have to be configured in the functions ```calculate_fitness_and_order()```, defined in *GA_functions/fitness.py* and the main function ```GA_vl()``` defined in *GA_main.py*.
+
+- ```pairing()``` (defined in *GA_functions/pairing.py*): In this function it is defined the pairing method explained above.
+
+- ```roulette_selection()``` (defined in *GA_functions/selection.py*): In this function it is defined the roulette wheel selection method explained above.
+
+- ```cross_ind()``` (defined in *GA_functions/crossover.py*): In this function it is defined the crossover method explained above.
+
+- ```mutation()``` (defined in *GA_functions/mutation.py*): In this function it is defined the mutation methods explained above.
