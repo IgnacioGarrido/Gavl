@@ -83,11 +83,27 @@ def calculate_max_row(chrom, mast_np):
 #           then these column names are taken as their indices.
 def get_master_np(df):
     if type(df) == pd.core.frame.DataFrame: #Pandas 
-        colnames = df.columns
+        colnames = list(df.columns)
         mast_np = df.to_numpy()
         return mast_np, colnames
     elif type(df) == np.ndarray: #Numpy
-        colnames = list(map(lambda x: str(x),list(range(df.shape[1]))))
+        #colnames = list(map(lambda x: str(x),list(range(df.shape[1]))))
+        colnames = list(range(df.shape[1]))
         return df, colnames
     else:
-        raise ValueError('The dataframe (df) has to be either a numpy array or a pandas dataframe')
+        raise ValueError('The passed argument to df has to be either a numpy array or a pandas dataframe')
+  
+#INDEX_TO_COLNAME
+# Description: This is a VERY auxiliar function. It receives the population, 
+#   being its chromosome  the values of the columns that are chosen and it 
+#   changes it to its real names.
+#
+#   @Inputs:
+#       pop: Population - output of the function calculate_fitness_and_order.
+#       colnames: Column names (names of the entities). If df is a numpy array
+#           then these column names are taken as their indices.
+#   @Outputs:
+#       None  
+def index_to_colname(pop, colnames):
+    for ind in pop:
+        ind.chromosome = [colnames[i] for i in ind.chromosome]
