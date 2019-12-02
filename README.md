@@ -118,34 +118,34 @@ It may be wanted to base the decision in some heuristics. For so, the fitness is
 
 * ```penalization_length```: It may be wanted to reward those individuals that have lower lengths (it may be preferred a smaller number of distributors (it makes no sense to have a too big number of distributors for a shop) if it only increases the total price a little bit). For so, it is defined two parameters that can be passed to the function ```GA_vl()```:
 
-	- MAX_NUM_TRANS: Maximum length of the chromosome up to which there is no penalization.
-	- PENALIZATION: Weight of this penalization that is added to the fitness function for each additional item in the chromosome. -> Note that if *PENALIZATION = 0* this term does not affect the fitness.
+	- MAX_LENGTH_CHROM: Maximum length of the chromosome up to which there is no penalization.
+	- PENALIZATION_LENGTH: Weight of this penalization that is added to the fitness function for each additional item (additional to MAX_NUM_TRANS) in the chromosome. -> Note that if *PENALIZATION_LENGTH = 0* this term does not affect the fitness.
 	
 	The definition of this term is showed in the next equation:
 	
-	```penalization_length = PENALIZATION*(max(len(chromosome), MAX_NUM_TRANS) - MAX_NUM_TRANS)```
+	```penalization_length = PENALIZATION_LENGTH*(max(len(chromosome), MAX_LENGTH_CHROM) - MAX_LENGTH_CHROM)```
 	
 	Note that the terms MAX_NUM_TRANS and PENALIZATION should be defined to keep a good tradeoff between the length of the chromosome and the total cost.
 
 * ```penalization_as_percentage```: It may also be wanted to define the penalization as a percentage of the total cost. This can be reasoned as someone may say "I don´t mind paying an X% more on the total price if I have one distributor less". This person may prefer an slightly bigger total price if it supposes lowering the total number of dsitributors chosen. This term is measuring that increase in the price as a percentage in the total price. For so, it is defined one parameters that can be passed to the function ```GA_vl()```:
 
-	- MAX_NUM_TRANS: Maximum length of the chromosome up to which there is no penalization.
+	- MAX_LENGTH_CHROM: Maximum length of the chromosome up to which there is no penalization.
 	- PERCENT: percentage of the total price that doesn't supposes a problem for each distributor less. -> Note that if *PERCENT = 0* this term does not affect the fitness.
 	
 	The definition of this term is showed in the next equation:
 	
-	```penalization_as_percentage = PERCENT*(max(len(chromosome), MAX_NUM_TRANS) - MAX_NUM_TRANS)*best_selection```
+	```penalization_as_percentage = PERCENT*(max(len(chromosome), MAX_LENGTH_CHROM) - MAX_LENGTH_CHROM)*best_selection```
 
 	Being ```best_selection``` is defined above. Note that the terms MAX_NUM_TRANS and PERCENT should be defined to keep a good tradeoff between the length of the chromosome and the total cost.
 
 * ```penalization_rating```: It may be wanted to penalize each distributor by a ranking. For so it can be specified the ratings of each item to be selected (distributor in the above table) as (pass this value to ```GA_vl()```):
 
-	- RATING_TRANS: List with the rating of each distributor. For example, if *minimize = 1* and *RATING_TRANS = [1,  1.2, 1.2, 1, 1, 1.2]* for the above table, it would mean that there is a small penalization for choosing the Distributors 2, 3 and 6.
-	- PENALIZATION: Weight of this penalization -> Note that if *PENALIZATION = 0* this term does not affect the fitness.
+	- RATING_CHROM: List with the rating of each distributor. For example, if *minimize = 1* and *RATING_TRANS = [1,  1.2, 1.2, 1, 1, 1.2]* for the above table, it would mean that there is a small penalization for choosing the Distributors 2, 3 and 6.
+	- PENALIZATION_RATING: Weight of this penalization -> Note that if *PENALIZATION_RATING = 0* this term does not affect the fitness.
 	
 	The definition of this term is showed in the next equation:
 
-	```penalization_rating = PENALIZATION*(sum(RATING_TRANS)/len(chromosome))```
+	```penalization_rating = PENALIZATION_RATING*(sum(RATING_CHROM)/len(chromosome))```
 
 	Note that the terms RATING_TRANS and PENALIZATION should be defined to keep a good tradeoff between the length of the chromosome and the total cost.
 	
