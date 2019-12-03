@@ -26,8 +26,8 @@ from random import shuffle
 #       elitism_rate: percentage of elitism. 
 #       mutation_rate: Mutation rate per individual.
 #       mutation_type: It can be either:
-#           'mut_gen': One of the genes of an individual is randomly changed.
-#           'addsub_gen': It is added or eliminated (randomly) a new element to
+#           'mut_gene': One of the genes of an individual is randomly changed.
+#           'addsub_gene': It is added or eliminated (randomly) a new element to
 #               an Individual.
 #           'both': 'mut_gen' and 'addsub_gen' are randomly applied.
 #       num_gen_changed_mutation: It is the number of genes that is changed, 

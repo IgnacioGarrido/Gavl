@@ -92,7 +92,8 @@ def get_master_np(df):
         return df, colnames
     else:
         raise ValueError('The passed argument to df has to be either a numpy array or a pandas dataframe')
-  
+
+
 #INDEX_TO_COLNAME
 # Description: This is a VERY auxiliar function. It receives the population, 
 #   being its chromosome  the values of the columns that are chosen and it 
