@@ -11,7 +11,7 @@ This repository contains a Python framework to launch a genetic algorithm based 
 	git clone https://github.com/IgnacioGarrido/GA_chromosomeWithVariableLength.git
 ```
 
-  2. Import the GA_vl function from the file GA_main.py. Note that this is the main and only function needed to execute the genetic algorithm. All the hyperparameters should be passed to this function.
+  2. Import the Gavl class from the file Gavl.py. Note that this is the main and only class needed to execute the genetic algorithm. All the hyperparameters should be passed to an object of this class.
 ```python
 	from path.Gavl import Gavl
 ```
