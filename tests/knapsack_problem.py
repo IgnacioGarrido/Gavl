@@ -2,7 +2,7 @@
 In this file it is shown an example of the knapsack problem (the one explained in the README).
 """
 
-from ga_variable_length.Gavl import Gavl  # Suppose that the file is in the same folder.
+from ga_variable_length.Gavl import Gavl # Suppose that the file is in the same folder.
 
 ga = Gavl()  # Initialize
 
@@ -59,7 +59,7 @@ ga.set_hyperparameter('possible_genes',
 #
 # def check_valid_individual(chromosome):
 #     """ Definition of a valid individual.
-# 
+#
 #     :param chromosome: (list of genes) Chromosome of the individual that is being analyzed.
 #     """
 #     sum_weights = 0  # Cumulative weights
@@ -89,3 +89,4 @@ ga.set_hyperparameter('show_progress',
 best_individual = ga.optimize()  # Optimize
 
 best_individual, population, historic_fitness = ga.get_results()  # Get other results
+
