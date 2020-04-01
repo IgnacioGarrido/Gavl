@@ -243,9 +243,9 @@ This method is based in the selection of each individual in dependence of its fi
 
 In each generation a random selection process based on the fitness value is performed for the subsequent pairing and crossover.
 
-_\* If other selection method is wanted, it can be set by calling the method ```.set_hyperparameter('selection', new_selection_function)```, where new_selection_function is the function that performs this new selection method. It must be a function that receives three arguments and returns a list of the selected individuals. It receives (in this order) a list with the population (list of objects of the class Individual), the attribute 'minimize' (1 -> minimize; 0 -> maximize) and the number of individuals to be selected. It must return a list with the IDs of the selected individuals (individual._id)._
+_\* If other selection method is wanted, it can be set by calling the method ```.set_hyperparameter('selection', new_selection_function)```, where new_selection_function is the function that performs this new selection method. It must be a function that receives three arguments and returns a list of the selected individuals. It receives (in this order) a list with the population (list of objects of the class Individual), the attribute 'minimize' (1 -> minimize; 0 -> maximize) and the number of individuals to be selected. It must return a list with the IDs of the selected individuals (individual.\_id)._
 
-_\** If more information is wanted, go to the docs and the definition of the roulette wheel selection function in ga_variable_length/tools/selection.py_
+_\** If more information is wanted, go to the docs and the definition of the roulette wheel selection function in ga_variable_length/tools/selection.py._
 
 
 
@@ -257,7 +257,7 @@ In each generation a random pairing process based in the selection is performed 
 
 _\* If other pairing method is wanted, it can be set by calling the method ```.set_hyperparameter('pairing', new_pairing_function)```, where new_pairing_function is the function that performs this new pairing method. It must be a function that receives one argument and returns the list of the paired individuals. It receives a list with the IDs of the selected individuals (see selection method), and returns a list of tuples with the IDs of the paired individuals._
 
-_\** If more information is wanted, go to the docs and the definition of the pairing default function in ga_variable_length/tools/pairing.py_
+_\** If more information is wanted, go to the docs and the definition of the pairing default function in ga_variable_length/tools/pairing.py._
 
 _\*** Note that with this pairing method there can be repeated individuals and one may be paired with itself. However, this rarely happens and it can be seen as an elitism mechanism. Even more, it can be used the keep_diversity functionality to make this more improvable._
 
@@ -303,7 +303,7 @@ if check_valid_individual(crossed_a):  # else try with other combination of gene
 
 _\* If other crossover method is wanted, it can be set by calling the method ```.set_hyperparameter('crossover', new_crossover_function)```, where new_crossover_function is the function that performs this new crossover method. It must be a function that receives five arguments and returns a list with the chromosomes of the newly crossed individuals. It must receive (in this order) a list ([(Individual_a, Individual_b) , ...]) with tuples of the paired individuals (of the class Individual), the minimum allowed length of the chromosome, the maximum length of the chromosome, a int (boolean) that indicates if the genes can be repeated (1 = repeated genes allowed) and the function check_valid_individual(chromosome) that receives the chromosome of an individual and returns a boolean that indicates if the individual is valid (True) or not (False). It must return a list with the chromosomes (list of genes that represent the individuals, NOT objects of the class Individual) of the newly created individuals._
 
-_\** If more information is wanted, go to the docs and the definition of the crossover default function in ga_variable_length/tools/mating.py_
+_\** If more information is wanted, go to the docs and the definition of the crossover default function in ga_variable_length/tools/mating.py._
 
 _\*** Note that with this crossover it is not only being tested new combinations of genes in the individual, but also new length of the chromosomes of these new individuals (lengths that are dependent on the lengths of the two crossed individuals)._
 
@@ -327,7 +327,7 @@ In the current project it has been also added the possibility of selecting both 
 
 _\* If other mutation method is wanted, it can be set by calling the method ```.set_hyperparameter('mutation', new_muttaion_function)```, where new_mutation_function is the function that performs this new crossover method. It must be a function that receives five arguments and returns a list with the chromosomes of the newly crossed individuals. It must receive (in this order) a list ([(Individual_a, Individual_b) , ...]) with tuples of the paired individuals (of the class Individual), the minimum allowed length of the chromosome, the maximum length of the chromosome, a int (boolean) that indicates if the genes can be repeated (1 = repeated genes allowed) and the function check_valid_individual(chromosome) that receives the chromosome of an individual and returns a boolean that indicates if the individual is valid (True) or not (False). It must return a list with the chromosomes (list of genes that represent the individuals, NOT objects of the class Individual) of the newly created individuals._
 
-_\** If more information is wanted, go to the docs and the definition of the mutation default function in ga_variable_length/tools/mutation.py_
+_\** If more information is wanted, go to the docs and the definition of the mutation default function in ga_variable_length/tools/mutation.py._
 
 
 
@@ -380,6 +380,7 @@ The algorithm to keep the diversity of the population works as follows. When an 
 
 \** _If used this mechanism to keep the diversity, it is recommended to do it every a considerable number of generations (5 or more). This is because the newly created individuals will probably be much worst than the rest of the population, and it would be a good practice to let them 'mate' with the rest of the individuals for some generations._
 
+_\** If more information is wanted, go to the docs and the definition of the keep diversity function in ga_variable_length/tools/keep_diversity.py._
 
 
 ### Termination criteria
