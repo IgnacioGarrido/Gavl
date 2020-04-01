@@ -237,7 +237,7 @@ The only available selection method in this project is roulette wheel selection.
 
 This method is based in the selection of each individual in dependence of its fitness value. The better is the individual (better fitness), the more probable is to choose that individual for the mating process. Thus, the probability of choosing an individual for the mating process is:
 
-<img src="https://latex.codecogs.com/svg.latex?\Large&space;P_{i} = \frac{f_{i}}{\sum_{j=1}^{n} f_{j}}" title="\Large P_{i} = \frac{f_{i}}{\sum_{j=1}^{n} f_{j}}" /> 
+<img src="https://render.githubusercontent.com/render/math?math=P_{i} = \frac{f_{i}}{\sum_{j=1}^{n} f_{j}}">
 
 <span style="color:lightgray"> _Where f <sub>i</sub> is the normalized fitness (or inverse normalized if the goal is minimizing the fitness) of the individual i._</span>
 
