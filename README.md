@@ -16,7 +16,7 @@ This repository contains a Python framework to launch a genetic algorithm based 
 	from path.Gavl import Gavl
 ```
 
-  3. Call the GA module:
+  3. Create an instance of Gavl():
 ```python
 	ga = Gavl()
 ```
@@ -48,7 +48,7 @@ This repository contains a Python framework to launch a genetic algorithm based 
     best_individual = ga.optimize()
 ```
 
-  6. If needed get more results:
+  6. If needed, get more results:
 ```python
     best_individual, population, historic_fitness = ga.get_results()
 ```
@@ -131,7 +131,7 @@ def generate_chromosome(min_length_chromosome, max_length_chromosome, possible_g
 
   * __'max_num_gen_changed_mutation'__: Int that represents the MAXIMUM number of genes changed in each mutation. ---> _It can be set by calling the method ```.set_hyperparameter('max_num_gen_changed_mutation', 5)```. Its default value is int(max_length_chromosome/3 + 1)._
 
-  * __'termination_criteria'__: Dictionary that represents the termination criteria. The attribute 'termination_criteria' must be a dictionary with either the value '{'max_num_generation_reached': number of generations}' (maximum number of generations reached) or '{'goal_fitness_reached': goal fitness} (maximum goal value reached). ---> _It can be set by calling the method ```.set_hyperparameter('termination_criteria', {'max_num_generation_reached': 100})```. Its default value ```{'max_num_generation_reached': 100}```, ie, the algorithm stops when computed 100 generations._
+  * __'termination_criteria'__: Dictionary that represents the termination criteria. The attribute 'termination_criteria' must be a dictionary with either the value '{'max_num_generation_reached': number of generations}' (maximum number of generations reached) or '{'goal_fitness_reached': goal fitness} (maximum goal value reached). ---> _It can be set by calling the method ```.set_hyperparameter('termination_criteria', {'max_num_generation_reached': 100})```. Its default value is ```{'max_num_generation_reached': 100}```, ie, the algorithm stops when computed 100 generations._
 
   * __'keep_diversity'__: Int that represents if it is wanted to apply the diversity techniques (keep_diversity = 1) or not (keep_diversity = 0). The diversity techniques are explained in the chapter "Keep diversity". ---> _It can be set by calling the method ```.set_hyperparameter('keep_diversity', x)``` which means that every x generations the diversity techniques will be applied. For example ```.set_hyperparameter('keep_diversity', 5)``` means that every 5 generations the diversity techniques are applied. Its default value is -1, which means that NO diversity techniques are applied._
 
