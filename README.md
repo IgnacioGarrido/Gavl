@@ -178,7 +178,7 @@ class Individual:
 
 Each individual has five attributes:
 
-  * __chromosome__: (list) Is a variable length list (length between the limits [_min_number_of_genes, max_number_of_genes_]). Examples of chromosomes are ```[1,10,6,3]```, ```['apple', 'banana', 'orange']``` and ```[{'a': 1, 'b': 2}, {'a': 2, 'b': 4}, {'a': 3, 'b': 2}]```.
+  * __chromosome__: (list) Is a variable length list (length between [_min_number_of_genes, max_number_of_genes_]). Examples of chromosomes are ```[1,10,6,3]```, ```['apple', 'banana', 'orange']``` and ```[{'a': 1, 'b': 2}, {'a': 2, 'b': 4}, {'a': 3, 'b': 2}]```.
 
   * __\_id__: (str) Unique string that identifies each individual. To create the ID it is used the module ```uuid```.
 
@@ -198,19 +198,22 @@ As well, each individual has the following methods:
 
   * __set_inverse_normalized_fitness_value__:  Method to set the inverse normalized fitness value.
 
-  * __calculate_fitness__: This is a bit of a "tricky" method. If a new individual of a new generation is going to be created, it will be computationally much faster to get the object of an individual that is going to be killed and reset its values to the ones of the new individual. ---> This will be done instead of directly creating a completely new individual with the new data and stop referencing the old individual.
+  * __calculate_fitness__: Method to calculate the fitness of the individual.
+  
+  * __kill_and_reset__: This is a bit of a "tricky" method. If a new individual of a new generation is going to be created, it will be computationally much faster to get the object of an individual that is going to be killed and reset its values to the ones of the new individual. ---> This will be done instead of directly creating a completely new individual with the new data and stop referencing the old individual.
 
 
 
 ### Population
 
-The population consists in a list of individuals. The population can be accessed with the method ```.get_population()```, which will return a list of ordered (from best to worst) individuals of the class shown above. 
+The population consists in a list of individuals. The population can be accessed with the method ```.get_population()```, which will return a list of ordered (from best to worst) individuals of the class Individual (shown above). 
 
 There are three ways to access to the best individual's attributes:
 
 ```python
 ga = Gavl()
-...  # Configure the hyperparameters
+
+# Configure the hyperparameters
 best_individual = ga.optimize()
 
 # You can get the best fitness and chromosome with the returned best individual of the method .optimize()
@@ -243,7 +246,7 @@ This method is based in the selection of each individual in dependence of its fi
 
 In each generation a random selection process based on the fitness value is performed for the subsequent pairing and crossover.
 
-_\* If other selection method is wanted, it can be set by calling the method ```.set_hyperparameter('selection', new_selection_function)```, where new_selection_function is the function that performs this new selection method. It must be a function that receives three arguments and returns a list of the selected individuals. It receives (in this order) a list with the population (list of objects of the class Individual), the attribute 'minimize' (1 -> minimize; 0 -> maximize) and the number of individuals to be selected. It must return a list with the IDs of the selected individuals (individual.\_id)._
+_\* If other selection method is wanted, it can be set by calling the method ```.set_hyperparameter('selection', new_selection_function)```, where new_selection_function is the function that performs this new selection method. It must be a function that receives three arguments and returns a list of the selected individuals. It receives (in this order) a list with the population (list of objects of the class Individual), the attribute 'minimize' (1 -> minimize; 0 -> maximize) and the number of individuals to be selected. It must return a list with the IDs of the selected individuals (attribute individual.\_id)._
 
 _\** If more information is wanted, go to the docs and the definition of the roulette wheel selection function in ga_variable_length/tools/selection.py._
 
@@ -255,7 +258,7 @@ The only available pairing method in this project is random pairing. Random pair
 
 In each generation a random pairing process based in the selection is performed for the subsequent crossover.
 
-_\* If other pairing method is wanted, it can be set by calling the method ```.set_hyperparameter('pairing', new_pairing_function)```, where new_pairing_function is the function that performs this new pairing method. It must be a function that receives one argument and returns the list of the paired individuals. It receives a list with the IDs of the selected individuals (see selection method), and returns a list of tuples with the IDs of the paired individuals._
+_\* If other pairing method is wanted, it can be set by calling the method ```.set_hyperparameter('pairing', new_pairing_function)```, where new_pairing_function is the function that performs this new pairing method. It must be a function that receives one argument and returns the list of the paired individuals. Concretely, it receives a list with the IDs of the selected individuals (see selection method), and returns a list of tuples with the IDs of the paired individuals._
 
 _\** If more information is wanted, go to the docs and the definition of the pairing default function in ga_variable_length/tools/pairing.py._
 
@@ -267,11 +270,11 @@ _\*** Note that with this pairing method there can be repeated individuals and o
 
 Suppose there are two individuals, A (individual_a) and B (individual_b), that have already been selected and paired for the mating process. The mating process that has been defined consists in taking a random number of genes of individual A, removing them from individual A and then adding them to individual B and vice versa. Thus, two new individuals that result from the combination of A and B are created. The algorithm can be defined by the next steps:
 
-  1. First, it is calculated which genes of individual A can be copied in individual B and vice versa. If the attribute 'repeated_genes_allowed' = 1, then all the genes of individual A can be copied in individual B, as there can be repetitions, and vice versa. However, if the attribute 'repeated_genes_allowed' = 0, then it could only be 'transfered' from A to B those genes of A that are not in B, and vice versa. Lets call *genes_a_to_b* and *genes_b_to_a* to the lists of the genes that can be transfered from A to B and vice versa.
+  1. First, it is calculated which genes of individual A can be copied in individual B and vice versa. If the attribute 'repeated_genes_allowed' = 1, then all the genes of individual A can be copied in individual B, as there can be repetitions, and vice versa. However, if the attribute 'repeated_genes_allowed' = 0, then it could only be 'transfered' from A to B those genes of A that are not in B, and vice versa. Lets call *genes_a_to_b* and *genes_b_to_a* to the lists of the genes that can be transferred from A to B and vice versa.
 
   2. It is taken a random number between 1 and the maximum number of possible genes to transfer from each individual (```len(genes_a_to_b)``` and ```len(genes_b_to_a```)). So after this random process, it is decided to get *n_a* genes from individual A to transfer them to individual B and *n_b* genes from individual B to transfer them to individual A. Notice that *n_a* may be different from *n_b*.
 
-  3. It is tested if taking *n_a* genes from *individual_a* and transferring (copying) them to *individual_b* or if taking *n_b* genes from *individual_b* and transferring (copying) them in *individual_a* would lead to an individual with a length over or under the limits *min_number_of_genes* and *max_number_of_genes* (attributes of ```Gavl()```). If it is not valid, it is repeated **step 2** for another different and random *n_a* or *n_b*. This condition is calculated in the next way:
+  3. It is tested if taking *n_a* genes from *individual_a* and transferring (copying) them to *individual_b* or if taking *n_b* genes from *individual_b* and transferring (copying) them to *individual_a* would lead to an individual with a length over or under the limits *min_number_of_genes* and *max_number_of_genes* (attributes of ```Gavl()```). If it is not valid, it is repeated **step 2** for another different and random *n_a* or *n_b*. This condition is calculated in the next way:
 
 ```python
 min_number_of_genes <= (len(individual_a) - n_a + n_b) <= max_number_of_genes
@@ -299,13 +302,13 @@ if check_valid_individual(crossed_a):  # else try with other combination of gene
 
   6. When a possible crossover has been found, return the new crossed individuals. 
 
-  7. If no possible crossover is found return the two original individuals.
+  7. If no possible crossover is found, return the two original individuals.
 
-_\* If other crossover method is wanted, it can be set by calling the method ```.set_hyperparameter('crossover', new_crossover_function)```, where new_crossover_function is the function that performs this new crossover method. It must be a function that receives five arguments and returns a list with the chromosomes of the newly crossed individuals. It must receive (in this order) a list ([(Individual_a, Individual_b) , ...]) with tuples of the paired individuals (of the class Individual), the minimum allowed length of the chromosome, the maximum length of the chromosome, a int (boolean) that indicates if the genes can be repeated (1 = repeated genes allowed) and the function check_valid_individual(chromosome) that receives the chromosome of an individual and returns a boolean that indicates if the individual is valid (True) or not (False). It must return a list with the chromosomes (list of genes that represent the individuals, NOT objects of the class Individual) of the newly created individuals._
+_\* If other crossover method is wanted, it can be set by calling the method ```.set_hyperparameter('crossover', new_crossover_function)```, where new_crossover_function is the function that performs this new crossover method. It must be a function that receives five arguments and returns a list with the chromosomes of the newly crossed individuals. It must receive (in this order) a list ([(Individual_a, Individual_b) , ...]) with tuples of the paired individuals (of the class Individual), the minimum allowed length of the chromosome, the maximum allowed length of the chromosome, a int (boolean) that indicates if the genes can be repeated (1 = repeated genes allowed) and the function check_valid_individual(chromosome) that receives the chromosome of an individual and returns a boolean that indicates if the individual is valid (True) or not (False). It must return a list with the chromosomes (list of genes that represent the individuals, NOT objects of the class Individual) of the newly created individuals._
 
 _\** If more information is wanted, go to the docs and the definition of the crossover default function in ga_variable_length/tools/mating.py._
 
-_\*** Note that with this crossover it is not only being tested new combinations of genes in the individual, but also new length of the chromosomes of these new individuals (lengths that are dependent on the lengths of the two crossed individuals)._
+_\*** Note that with this crossover it is not only being tested new combinations of genes in the individual, but also new lengths of the chromosomes of these new individuals (lengths that are dependent on the lengths of the two crossed individuals)._
 
 
 
@@ -315,7 +318,7 @@ In this project it has been defined two different mutation types, explained belo
 
 * __'mutation_type'__: Type of mutation (explained below). *(default value: 'both')*
 * __'mutation_rate'__: Number between 0 and 1 that represents the mutation rate. *(default value: 0.3)*
-* __'max_num_gen_changed_mutation'__: It is the maximum number of genes that can be changed, ie, the number of genes that are mutated, when an individual is selected for mutation. *(default value: int(max_length_chromosome/3 + 1))*
+* __'max_num_gen_changed_mutation'__: It is the maximum number of genes that can be changed, ie, the maximum number of genes that are mutated when an individual is selected for mutation. *(default value: int(max_length_chromosome/3 + 1))*
 
 It has been defined two different mutation types:
 
@@ -325,7 +328,7 @@ It has been defined two different mutation types:
 
 In the current project it has been also added the possibility of selecting both mutation methods. If mutation_type = 'both' (```.set_hyperparameter('mutation_type', 'both')```) it would be selected either length mutation or gene mutation randomly for each selected individual in each generation.
 
-_\* If other mutation method is wanted, it can be set by calling the method ```.set_hyperparameter('mutation', new_muttaion_function)```, where new_mutation_function is the function that performs this new crossover method. It must be a function that receives five arguments and returns a list with the chromosomes of the newly crossed individuals. It must receive (in this order) a list ([(Individual_a, Individual_b) , ...]) with tuples of the paired individuals (of the class Individual), the minimum allowed length of the chromosome, the maximum length of the chromosome, a int (boolean) that indicates if the genes can be repeated (1 = repeated genes allowed) and the function check_valid_individual(chromosome) that receives the chromosome of an individual and returns a boolean that indicates if the individual is valid (True) or not (False). It must return a list with the chromosomes (list of genes that represent the individuals, NOT objects of the class Individual) of the newly created individuals._
+_\* If other mutation method is wanted, it can be set by calling the method ```.set_hyperparameter('mutation', new_muttaion_function)```, where new_mutation_function is the function that performs this new crossover method. It must be a function that receives five arguments and returns a list with the chromosomes of the newly crossed individuals. It must receive (in this order) a list ([(Individual_a, Individual_b) , ...]) with tuples of the paired individuals (of the class Individual), the minimum allowed length of the chromosome, the maximum allowed length of the chromosome, an int (boolean) that indicates if the genes can be repeated (1 = repeated genes allowed) and the function check_valid_individual(chromosome) that receives the chromosome of an individual and returns a boolean that indicates if the individual is valid (True) or not (False). It must return a list with the chromosomes (list of genes that represent the individuals, NOT objects of the class Individual) of the newly mutated individuals._
 
 _\** If more information is wanted, go to the docs and the definition of the mutation default function in ga_variable_length/tools/mutation.py._
 
