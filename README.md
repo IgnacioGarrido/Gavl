@@ -375,20 +375,20 @@ Thus, a chromosome like the one shown in the example above, ```['food','pen','pe
 
 ### Keep diversity
 
-It may be wanted to make a great emphasis in keeping the diversity (diversity is usually one of the biggest problems of this algorithm). Because of this, it has been defined the configurable hyperparameter 'keep_diversity'. 
+It may be wanted to make a great emphasis on keeping the diversity (diversity is usually one of the biggest problems of this algorithm). Because of this, it has been defined the configurable hyperparameter 'keep_diversity'. 
 
 The algorithm to keep the diversity of the population works as follows. When an individual is repeated in the population it is substituted by a completely new and randomly generated individual. As well the worst 25% of the population is substituted by completely new and randomly generated individuals. Thus, a greater space may be search thanks to this function.
 
-\* _This functionality is activated by calling ```.set_hyperparameter('keep_diversity', x)``` which means that every x generations the diversity techniques will be applied. For example ```.set_hyperparameter('keep_diversity', 5)``` means that every 5 generations the diversity techniques are applied. Note that its default value is -1, which means that NO diversity techniques are applied. This parameter only accepts -1 (do not apply the keep diversity methodology) and any positive number different of zero that indicates every how many generation it is applied._
+\* _This functionality is activated by calling ```.set_hyperparameter('keep_diversity', x)```, which means that every *x* generations the diversity techniques will be applied. For example ```.set_hyperparameter('keep_diversity', 5)``` means that every 5 generations the diversity techniques are applied. Note that its default value is -1, which means that NO diversity techniques are applied. This parameter only accepts -1 (do not apply the keep diversity algorithm) and any positive number different from zero that indicates every how many generation it is applied._
 
 \** _If used this mechanism to keep the diversity, it is recommended to do it every a considerable number of generations (5 or more). This is because the newly created individuals will probably be much worst than the rest of the population, and it would be a good practice to let them 'mate' with the rest of the individuals for some generations._
 
-_\** If more information is wanted, go to the docs and the definition of the keep diversity function in ga_variable_length/tools/keep_diversity.py._
+\*** _If more information is wanted, go to the docs and the definition of the keep diversity function in ga_variable_length/tools/keep_diversity.py._
 
 
 ### Termination criteria
 
-In this project it has been defined two different termination criteria. Stop when a maximum number of generations is reached, or stop when a goal fitness is reached. They can be set as follows:
+In this project it has been defined two different termination criteria. Stop when a maximum number of generations is reached or stop when a goal fitness is reached. They can be set as follows:
 
   * __'max_num_generation_reached'__: The maximum number of generations is reached. It can be set with the method ```.set_hyperparameter('termination_criteria', {'max_num_generation_reached': n})```, where *n* is the maximum number of generations.
  
@@ -501,7 +501,7 @@ ga.set_hyperparameter('keep_diversity', 5)  # Set a mechanism to keep the divers
 ga.set_hyperparameter('show_progress',
                       1)  # Show progress of the genetic algorithm (this will print the generation number)
 
-best_individual = ga.optimize()  # Optimize
+best_individual = ga.optimize()  # Launch optimization
 
 best_individual, population, historic_fitness = ga.get_results()  # Get other results
 
