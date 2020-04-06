@@ -4,7 +4,6 @@ In this file it is defined a function to keep the diversity.
 Functions:
     keep_diversity: Function called to keep the diversity.
 """
-from .individual import Individual
 
 
 def keep_diversity(population, generate_chromosome, min_length_chromosome, max_length_chromosome, possible_genes,
@@ -23,6 +22,19 @@ def keep_diversity(population, generate_chromosome, min_length_chromosome, max_l
     """
     new_population = [population[0].chromosome]  # List that will hold the new population
     list_chromosomes = [ind.chromosome for ind in population]  # List with all the chromosomes
+    copy_list_chromosomes = list_chromosomes.copy()
+    try:
+        for i in range(len(list_chromosomes)):
+            chrom = list_chromosomes[i]
+            if len(chrom):
+                if type(chrom[0]) == int or type(chrom[0]) == float or type(chrom[0]) == str or type(chrom[0]) == chr:
+                    chrom.sort()  # So repeated individuals are correctly eliminated
+                elif type(chrom[0]) == dict:
+                    list_chromosomes[i] = sorted(chrom, key=lambda i: (list(i.keys())[0], list(i.values())[
+                        0]))  # Not 100% sure it will work and sort uniquely the individuals, but it may do the trick
+    except:
+        print('Sorting error in keep_diversity.')
+        list_chromosomes = copy_list_chromosomes.copy()  # If some error in the sorting, just copy the original list_chromosomes
     for i in range(1, int(len(list_chromosomes) / 4)):
         if population[i].chromosome in list_chromosomes[:i]:
             new_ind = generate_chromosome(min_length_chromosome, max_length_chromosome, possible_genes,

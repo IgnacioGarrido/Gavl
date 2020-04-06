@@ -28,15 +28,15 @@ Example call:
 """
 import random
 from inspect import signature
-from ga_variable_length.tools.population import Population
-from ga_variable_length.tools.individual import Individual
-from ga_variable_length.tools.generate_chromosome import generate_chromosome
-from ga_variable_length.tools.termination_criteria import check_termination_criteria
-from ga_variable_length.tools.keep_diversity import keep_diversity
-from ga_variable_length.tools.selection import roulette_selection
-from ga_variable_length.tools.pairing import pairing
-from ga_variable_length.tools.crossover import mating
-from ga_variable_length.tools.mutation import mutation
+from .tools.population import Population
+from .tools.individual import Individual
+from .tools.generate_chromosome import generate_chromosome
+from .tools.termination_criteria import check_termination_criteria
+from .tools.keep_diversity import keep_diversity
+from .tools.selection import roulette_selection
+from .tools.pairing import pairing
+from .tools.crossover import mating
+from .tools.mutation import mutation
 
 
 class Gavl(Population):
@@ -298,11 +298,11 @@ class Gavl(Population):
         paired_ids = self.pairing(selected_individuals)  # 2. Perform the pairing
         list_of_paired_ind = [(self.get_individual_by_id(id_a).chromosome, self.get_individual_by_id(id_b).chromosome)
                               for id_a, id_b in paired_ids]  # List with the chromosomes of the paired individuals
-        new_crossed_ind = self.crossover(list_of_paired_ind=list_of_paired_ind,
-                                         min_length_chromosome=self.min_length_chromosome,
-                                         max_length_chromosome=self.max_length_chromosome,
-                                         repeated_genes_allowed=self.repeated_genes_allowed,
-                                         check_valid_individual=self.check_valid_individual)  # 3. Get the new chromosomes already 'crossovered'
+        new_crossed_ind = self.crossover(list_of_paired_ind,
+                                         self.min_length_chromosome,
+                                         self.max_length_chromosome,
+                                         self.repeated_genes_allowed,
+                                         self.check_valid_individual)  # 3. Get the new chromosomes already 'crossovered'
         for new_individual in new_crossed_ind:  # 4. Add crossovered individuals
             if type(new_individual) == Individual:
                 new_generation.append(new_individual.chromosome)
