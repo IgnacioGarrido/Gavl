@@ -13,12 +13,12 @@ This repository contains a Python framework to launch a genetic algorithm based 
 
   2. Import the Gavl class from the file Gavl.py. Note that this is the main and only class needed to execute the genetic algorithm. All the hyperparameters should be passed to an object of this class.
 ```python
-  from ga_variable_length import Gavl
+  import Gavl
 ```
 
   3. Create an instance of Gavl():
 ```python
-	ga = Gavl()
+	ga = Gavl.Gavl()
 ```
 
   4. Configure the hyperparameters that you want:
@@ -417,9 +417,9 @@ _Problem: Imagine you have a knapsack that can hold at much 15 kg and there is a
 _Thus, in order to solve this problem we will write the next program:_
 
 ```python
-from ga_variable_length import Gavl # Suppose that the file is in the same folder.
+import Gavl # Suppose that the file is in the same folder.
 
-ga = Gavl()  # Initialize
+ga = Gavl.Gavl()  # Initialize
 
 # Compulsory hyperparameters
 

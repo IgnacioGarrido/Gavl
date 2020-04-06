@@ -1,9 +1,9 @@
 """
 In this file it is shown an example of the knapsack problem (the one explained in the README).
 """
-from ga_variable_length import *
+import Gavl
 
-ga = Gavl()  # Initialize
+ga = Gavl.Gavl()  # Initialize
 
 # Compulsory hyperparameters
 
