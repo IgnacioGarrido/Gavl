@@ -65,7 +65,7 @@ As shown in the example, all the hyperparameters can be set by calling the metho
 
 ### Parameters that MUST be tuned:
 
-Next it is shown a list with the hyperparameters that must be tunned before launching the genetic algorithm. These hyperparameters have not default value, and if it is tried to launch the program before tunning them an AttributeError will occur.
+Next it is shown a list with the hyperparameters that must be tuned before launching the genetic algorithm. These hyperparameters have not default value, and if it is tried to launch the program before tuning them an AttributeError will occur.
 
   * __'size_population'__: Int that represents the size of the population. It can be set by calling the method ```.set_hyperparameter('size_population', 100)``` ---> _Note that in this example the size of the population is being set to 100._
  
