@@ -1,6 +1,6 @@
 # Genetic algorithm with chromosomes with variable length
 
-This repository contains a Python framework to launch a genetic algorithm based in individuals with chromosomes with variable length. The algorithm receives a fitness function and a set of configurable hyperparameters, and then it performs the optimization. The individuals are based in lists of variable length (the minimum and maximum length are configurable parameters) of non-ordered genes with or without repetition (this parameter is configurable as well). The crossover consists in taking a random number of genes of each of the parents to create the child (explained in the section of the crossover). As well, two different mutation algorithms are proposed.
+This repository contains a Python framework to optimize using a genetic algorithm based in individuals with chromosomes with variable length and unordered genes. The algorithm receives a fitness function and a set of configurable hyperparameters, and then it performs the optimization. The individuals are based in lists of variable length (the minimum and maximum length are configurable parameters) of non-ordered genes with or without repetition (this parameter is configurable as well). The crossover consists in taking a random number of genes of each of the parents to create the child (explained in the section of the crossover). As well, two different mutation algorithms are proposed.
 
 
 
@@ -63,9 +63,9 @@ As shown in the example, all the hyperparameters can be set by calling the metho
 
 
 
-### Parameters that MUST be tunned:
+### Parameters that MUST be tuned:
 
-Next it is shown a list with the hyperparameters that must be tunned before launching the genetic algorithm. These hyperparameters have not default value, and if it is tried to launch the program before tunning them an AttributeError will occur.
+Next it is shown a list with the hyperparameters that must be tuned before launching the genetic algorithm. These hyperparameters have not default value, and if it is tried to launch the program before tuning them an AttributeError will occur.
 
   * __'size_population'__: Int that represents the size of the population. It can be set by calling the method ```.set_hyperparameter('size_population', 100)``` ---> _Note that in this example the size of the population is being set to 100._
  
@@ -79,7 +79,7 @@ Next it is shown a list with the hyperparameters that must be tunned before laun
 
 
 
-### Parameters that CAN be tunned:
+### Parameters that CAN be tuned:
 
   * __'generate_new_chromosome'__: Function to create a new chromosome. It receives the four arguments (in this order) _min_length_chromosome_ (minimum length of the chromosome), _max_length_chromosome_ (maximum length of the chromosome), _possible_genes_ (list with the possible values that the genes can take), _repeated_genes_allowed_ (boolean that indicates if the genes can be repeated in the chromosome or not). This function must return a list of genes. Note that the arguments of the function must be specified in this order. ---> _It can be set by calling the method ```.set_hyperparameter('generate_new_chromosome', generate_chromosome)```, where generate_chromosome is a function of the type ```generate_chromosome(min_length_chromosome, max_length_chromosome, possible_genes, repeated_genes_allowed)```. The default value is a function that takes a random length of the chromosome within the limits, and then it randomly selects the genes among the possibilities. The current default implementation of this function is shown bellow:_
 
