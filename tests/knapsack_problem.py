@@ -1,7 +1,7 @@
 """
 In this file it is shown an example of the knapsack problem (the one explained in the README).
 """
-import Gavl
+import Gavl.Gavl as Gavl  # !!! This should be substituted by 'import Gavl'.
 
 ga = Gavl.Gavl()  # Initialize
 

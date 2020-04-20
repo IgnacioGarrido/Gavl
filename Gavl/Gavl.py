@@ -267,7 +267,7 @@ class Gavl(Population):
                                                                            self.check_valid_individual)
                     self._Population__kill_and_reset_whole_population(
                         new_diverse_population)  # Set the next generation.
-                self.__update_termination_criteria_args()
+                self.__update_termination_criteria_args()  # Update the termination criteria arguments
                 self.best_fitness_per_generation.append(
                     self.best_individual().fitness_value)  # Get the best fitness value per generation
             self._Population__calculate_fitness_and_sort()  # Calculate the fitness and sort the population
@@ -323,13 +323,13 @@ class Gavl(Population):
                                             self.max_num_gen_changed_mutation, self.min_length_chromosome,
                                             self.max_length_chromosome, self.repeated_genes_allowed,
                                             self.check_valid_individual, self.possible_genes)
-        for i in indices_mutation:  # 5. Add the newly created individuals to the population
+        for i in indices_mutation:  # Add the newly mutated individuals to the population
             m_ind = mutated_individuals.pop()
             if type(m_ind) == Individual:
                 new_generation[i] = m_ind.chromosome
             elif type(m_ind) == list:
                 new_generation[i] = m_ind
-            else:  # In case it is incorrectly redefined the crossover method
+            else:  # In case it is incorrectly redefined the mutation method
                 raise ValueError(
                     'The method mutation must return a list with the chromosomes of the newly mutated individuals.')
         return new_generation
@@ -380,7 +380,7 @@ class Gavl(Population):
         if not len(self.population):
             raise AttributeError('The population has not been generated yet.')
         else:
-            if True in [ind.fitness_value is None for ind in self.population]:
+            if any([ind.fitness_value is None for ind in self.population]):
                 self._Population__calculate_fitness_population()  # Calculate the fitness of the individuals if it hasn't been done yet
             if self.minimize:  # If minimize == 1
                 self.population.sort(key=lambda x: x.fitness_value,

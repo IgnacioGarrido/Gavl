@@ -4,8 +4,8 @@ In this file it is defined the class Individual.
 Classes:
     :Individual: Main class.
 """
-from inspect import signature
 import uuid
+import numpy as np
 
 
 class Individual:
@@ -44,10 +44,12 @@ class Individual:
         :param fitness_value: (float) Fitness value.
         :return:
         """
-        if type(fitness_value) == int or type(fitness_value) == float:
+        if type(fitness_value) == int or type(fitness_value) == float or type(fitness_value) == np.float64:
             self.fitness_value = fitness_value
         else:
-            raise ValueError('The fitness value must be a float.')
+            raise ValueError(
+                'The fitness value must be an integer or a float. However, the received type was {}.'.format(
+                    type(fitness_value)))
 
     def set_normalized_fitness_value(self, normalized_fitness_value):
         """ Method to set the normalized fitness value.
@@ -55,10 +57,13 @@ class Individual:
         :param normalized_fitness_value: (float) Fitness value.
         :return:
         """
-        if type(normalized_fitness_value) == int or type(normalized_fitness_value) == float:
+        if type(normalized_fitness_value) == int or type(normalized_fitness_value) == float or type(
+                normalized_fitness_value) == np.float64:
             self.normalized_fitness_value = normalized_fitness_value
         else:
-            raise ValueError('The normalized fitness value must be a float.')
+            raise ValueError(
+                'The normalized fitness value must be an integer o a float. However, the received type was {}.'.format(
+                    type(normalized_fitness_value)))
 
     def set_inverse_normalized_fitness_value(self, inverse_normalized_fitness_value):
         """ Method to set the inverse normalized fitness value.
@@ -66,10 +71,13 @@ class Individual:
         :param inverse_normalized_fitness_value: (float) Fitness value.
         :return:
         """
-        if type(inverse_normalized_fitness_value) == int or type(inverse_normalized_fitness_value) == float:
+        if type(inverse_normalized_fitness_value) == int or type(inverse_normalized_fitness_value) == float or type(
+                inverse_normalized_fitness_value) == np.float64:
             self.inverse_normalized_fitness_value = inverse_normalized_fitness_value
         else:
-            raise ValueError('The inverse normalized fitness value must be a float.')
+            raise ValueError(
+                'The inverse normalized fitness value must be an integer or a float. However, the received type was {}.'.format(
+                    type(inverse_normalized_fitness_value)))
 
     def calculate_fitness(self, fitness):
         """ Method to calculate the fitness of the individual.

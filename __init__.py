@@ -3,4 +3,4 @@ __author__ = "Ignacio Garrido Botella"
 __version__ = "1.0"
 __revision__ = "1.0.1"
 
-from .Gavl import Gavl
+from .Gavl.Gavl import Gavl
