@@ -37,8 +37,8 @@
 </div>
 <div class="section" id="main-class-gavl">
 <h1>Main class - Gavl<a class="headerlink" href="#main-class-gavl" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="module-ga_variable_length.Gavl">
-<span id="gavl"></span><h2>Gavl<a class="headerlink" href="#module-ga_variable_length.Gavl" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-Gavl.Gavl">
+<span id="gavl"></span><h2>Gavl<a class="headerlink" href="#module-Gavl.Gavl" title="Permalink to this headline">¶</a></h2>
 <p>In this file it is defined the main class to execute the GA with chromosomes with variable length.</p>
 <dl>
 <dt>Classes:</dt><dd><dl class="field-list simple">
@@ -71,12 +71,12 @@ best_individual = ga.optimize()
 </dd>
 </dl>
 <dl class="class">
-<dt id="ga_variable_length.Gavl.Gavl">
-<em class="property">class </em><code class="sig-prename descclassname">ga_variable_length.Gavl.</code><code class="sig-name descname">Gavl</code><a class="headerlink" href="#ga_variable_length.Gavl.Gavl" title="Permalink to this definition">¶</a></dt>
+<dt id="Gavl.Gavl.Gavl">
+<em class="property">class </em><code class="sig-prename descclassname">Gavl.Gavl.</code><code class="sig-name descname">Gavl</code><a class="headerlink" href="#Gavl.Gavl.Gavl" title="Permalink to this definition">¶</a></dt>
 <dd><p>This class is the main class for executing the GA and the only one that should be called.</p>
 <dl class="method">
-<dt id="ga_variable_length.Gavl.Gavl.add_individual">
-<code class="sig-name descname">add_individual</code><span class="sig-paren">(</span><em class="sig-param">individual</em><span class="sig-paren">)</span><a class="headerlink" href="#ga_variable_length.Gavl.Gavl.add_individual" title="Permalink to this definition">¶</a></dt>
+<dt id="Gavl.Gavl.Gavl.add_individual">
+<code class="sig-name descname">add_individual</code><span class="sig-paren">(</span><em class="sig-param">individual</em><span class="sig-paren">)</span><a class="headerlink" href="#Gavl.Gavl.Gavl.add_individual" title="Permalink to this definition">¶</a></dt>
 <dd><p>Method to add a new individual to the population. This method is overriding the method with the same name of the class Population —&gt; This is done to check that it is not added more individuals than self.size_population.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -89,8 +89,8 @@ best_individual = ga.optimize()
 </dd></dl>
 
 <dl class="method">
-<dt id="ga_variable_length.Gavl.Gavl.best_individual">
-<code class="sig-name descname">best_individual</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ga_variable_length.Gavl.Gavl.best_individual" title="Permalink to this definition">¶</a></dt>
+<dt id="Gavl.Gavl.Gavl.best_individual">
+<code class="sig-name descname">best_individual</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Gavl.Gavl.Gavl.best_individual" title="Permalink to this definition">¶</a></dt>
 <dd><p>This method returns the best individual.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -108,8 +108,8 @@ best_individual = ga.optimize()
 </dd></dl>
 
 <dl class="method">
-<dt id="ga_variable_length.Gavl.Gavl.get_results">
-<code class="sig-name descname">get_results</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ga_variable_length.Gavl.Gavl.get_results" title="Permalink to this definition">¶</a></dt>
+<dt id="Gavl.Gavl.Gavl.get_results">
+<code class="sig-name descname">get_results</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Gavl.Gavl.Gavl.get_results" title="Permalink to this definition">¶</a></dt>
 <dd><p>This method is used to get the results of the optimization process, once it has finished.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -134,8 +134,8 @@ best_individual = ga.optimize()
 </dd></dl>
 
 <dl class="method">
-<dt id="ga_variable_length.Gavl.Gavl.historic_fitness">
-<code class="sig-name descname">historic_fitness</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ga_variable_length.Gavl.Gavl.historic_fitness" title="Permalink to this definition">¶</a></dt>
+<dt id="Gavl.Gavl.Gavl.historic_fitness">
+<code class="sig-name descname">historic_fitness</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Gavl.Gavl.Gavl.historic_fitness" title="Permalink to this definition">¶</a></dt>
 <dd><p>This method returns the best fitness value in each generation.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -153,8 +153,8 @@ best_individual = ga.optimize()
 </dd></dl>
 
 <dl class="method">
-<dt id="ga_variable_length.Gavl.Gavl.optimize">
-<code class="sig-name descname">optimize</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ga_variable_length.Gavl.Gavl.optimize" title="Permalink to this definition">¶</a></dt>
+<dt id="Gavl.Gavl.Gavl.optimize">
+<code class="sig-name descname">optimize</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Gavl.Gavl.Gavl.optimize" title="Permalink to this definition">¶</a></dt>
 <dd><p>This method is the one that is called to start the optimization (start the genetic algorithm). Before calling this method it must be defined Gavl.size_population, Gavl.min_length_chromosome, Gavl.max_length_chromosome, Gavl.fitness and Gavl.possible_genes.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -164,8 +164,8 @@ best_individual = ga.optimize()
 </dd></dl>
 
 <dl class="method">
-<dt id="ga_variable_length.Gavl.Gavl.set_hyperparameter">
-<code class="sig-name descname">set_hyperparameter</code><span class="sig-paren">(</span><em class="sig-param">id_hyperparameter</em>, <em class="sig-param">value</em><span class="sig-paren">)</span><a class="headerlink" href="#ga_variable_length.Gavl.Gavl.set_hyperparameter" title="Permalink to this definition">¶</a></dt>
+<dt id="Gavl.Gavl.Gavl.set_hyperparameter">
+<code class="sig-name descname">set_hyperparameter</code><span class="sig-paren">(</span><em class="sig-param">id_hyperparameter</em>, <em class="sig-param">value</em><span class="sig-paren">)</span><a class="headerlink" href="#Gavl.Gavl.Gavl.set_hyperparameter" title="Permalink to this definition">¶</a></dt>
 <dd><p>Method to set the hyperparameters (attributes of the class Gavl).</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -186,8 +186,8 @@ best_individual = ga.optimize()
 </div>
 <div class="section" id="auxiliary-classes">
 <h1>Auxiliary classes<a class="headerlink" href="#auxiliary-classes" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="module-ga_variable_length.tools.population">
-<span id="population"></span><h2>Population<a class="headerlink" href="#module-ga_variable_length.tools.population" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-Gavl.tools.population">
+<span id="population"></span><h2>Population<a class="headerlink" href="#module-Gavl.tools.population" title="Permalink to this headline">¶</a></h2>
 <p>In this file it is defined the class to hold the population.</p>
 <dl class="simple">
 <dt>Classes:</dt><dd><dl class="field-list simple">
@@ -198,12 +198,12 @@ best_individual = ga.optimize()
 </dd>
 </dl>
 <dl class="class">
-<dt id="ga_variable_length.tools.population.Population">
-<em class="property">class </em><code class="sig-prename descclassname">ga_variable_length.tools.population.</code><code class="sig-name descname">Population</code><a class="headerlink" href="#ga_variable_length.tools.population.Population" title="Permalink to this definition">¶</a></dt>
+<dt id="Gavl.tools.population.Population">
+<em class="property">class </em><code class="sig-prename descclassname">Gavl.tools.population.</code><code class="sig-name descname">Population</code><a class="headerlink" href="#Gavl.tools.population.Population" title="Permalink to this definition">¶</a></dt>
 <dd><p>Class of the population.</p>
 <dl class="method">
-<dt id="ga_variable_length.tools.population.Population.add_individual">
-<code class="sig-name descname">add_individual</code><span class="sig-paren">(</span><em class="sig-param">individual</em><span class="sig-paren">)</span><a class="headerlink" href="#ga_variable_length.tools.population.Population.add_individual" title="Permalink to this definition">¶</a></dt>
+<dt id="Gavl.tools.population.Population.add_individual">
+<code class="sig-name descname">add_individual</code><span class="sig-paren">(</span><em class="sig-param">individual</em><span class="sig-paren">)</span><a class="headerlink" href="#Gavl.tools.population.Population.add_individual" title="Permalink to this definition">¶</a></dt>
 <dd><p>Method to add a new individual to the population. BEWARE: The population may have a bigger size than the specified if new individuals are added.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -216,8 +216,8 @@ best_individual = ga.optimize()
 </dd></dl>
 
 <dl class="method">
-<dt id="ga_variable_length.tools.population.Population.best_individual">
-<em class="property">abstract </em><code class="sig-name descname">best_individual</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ga_variable_length.tools.population.Population.best_individual" title="Permalink to this definition">¶</a></dt>
+<dt id="Gavl.tools.population.Population.best_individual">
+<em class="property">abstract </em><code class="sig-name descname">best_individual</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Gavl.tools.population.Population.best_individual" title="Permalink to this definition">¶</a></dt>
 <dd><p>This method returns the best individual.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -235,8 +235,8 @@ best_individual = ga.optimize()
 </dd></dl>
 
 <dl class="method">
-<dt id="ga_variable_length.tools.population.Population.get_individual_by_id">
-<code class="sig-name descname">get_individual_by_id</code><span class="sig-paren">(</span><em class="sig-param">id_individual</em><span class="sig-paren">)</span><a class="headerlink" href="#ga_variable_length.tools.population.Population.get_individual_by_id" title="Permalink to this definition">¶</a></dt>
+<dt id="Gavl.tools.population.Population.get_individual_by_id">
+<code class="sig-name descname">get_individual_by_id</code><span class="sig-paren">(</span><em class="sig-param">id_individual</em><span class="sig-paren">)</span><a class="headerlink" href="#Gavl.tools.population.Population.get_individual_by_id" title="Permalink to this definition">¶</a></dt>
 <dd><p>This method returns an Individual given its ID. If there is no Individual with this ID in the population, it returns None.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -257,8 +257,8 @@ best_individual = ga.optimize()
 </dd></dl>
 
 <dl class="method">
-<dt id="ga_variable_length.tools.population.Population.get_population">
-<code class="sig-name descname">get_population</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ga_variable_length.tools.population.Population.get_population" title="Permalink to this definition">¶</a></dt>
+<dt id="Gavl.tools.population.Population.get_population">
+<code class="sig-name descname">get_population</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Gavl.tools.population.Population.get_population" title="Permalink to this definition">¶</a></dt>
 <dd><p>Method to get the population</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -270,8 +270,8 @@ best_individual = ga.optimize()
 </dd></dl>
 
 </div>
-<div class="section" id="module-ga_variable_length.tools.individual">
-<span id="individual"></span><h2>Individual<a class="headerlink" href="#module-ga_variable_length.tools.individual" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-Gavl.tools.individual">
+<span id="individual"></span><h2>Individual<a class="headerlink" href="#module-Gavl.tools.individual" title="Permalink to this headline">¶</a></h2>
 <p>In this file it is defined the class Individual.</p>
 <dl class="simple">
 <dt>Classes:</dt><dd><dl class="field-list simple">
@@ -282,12 +282,12 @@ best_individual = ga.optimize()
 </dd>
 </dl>
 <dl class="class">
-<dt id="ga_variable_length.tools.individual.Individual">
-<em class="property">class </em><code class="sig-prename descclassname">ga_variable_length.tools.individual.</code><code class="sig-name descname">Individual</code><span class="sig-paren">(</span><em class="sig-param">chromosome</em><span class="sig-paren">)</span><a class="headerlink" href="#ga_variable_length.tools.individual.Individual" title="Permalink to this definition">¶</a></dt>
+<dt id="Gavl.tools.individual.Individual">
+<em class="property">class </em><code class="sig-prename descclassname">Gavl.tools.individual.</code><code class="sig-name descname">Individual</code><span class="sig-paren">(</span><em class="sig-param">chromosome</em><span class="sig-paren">)</span><a class="headerlink" href="#Gavl.tools.individual.Individual" title="Permalink to this definition">¶</a></dt>
 <dd><p>Class  of the individuals. It has the attributes chromosome, fitness and normalized fitness.</p>
 <dl class="method">
-<dt id="ga_variable_length.tools.individual.Individual.calculate_fitness">
-<code class="sig-name descname">calculate_fitness</code><span class="sig-paren">(</span><em class="sig-param">fitness</em><span class="sig-paren">)</span><a class="headerlink" href="#ga_variable_length.tools.individual.Individual.calculate_fitness" title="Permalink to this definition">¶</a></dt>
+<dt id="Gavl.tools.individual.Individual.calculate_fitness">
+<code class="sig-name descname">calculate_fitness</code><span class="sig-paren">(</span><em class="sig-param">fitness</em><span class="sig-paren">)</span><a class="headerlink" href="#Gavl.tools.individual.Individual.calculate_fitness" title="Permalink to this definition">¶</a></dt>
 <dd><p>Method to calculate the fitness of the individual.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -309,8 +309,8 @@ best_individual = ga.optimize()
 </dd></dl>
 
 <dl class="method">
-<dt id="ga_variable_length.tools.individual.Individual.kill_and_reset">
-<code class="sig-name descname">kill_and_reset</code><span class="sig-paren">(</span><em class="sig-param">chromosome</em><span class="sig-paren">)</span><a class="headerlink" href="#ga_variable_length.tools.individual.Individual.kill_and_reset" title="Permalink to this definition">¶</a></dt>
+<dt id="Gavl.tools.individual.Individual.kill_and_reset">
+<code class="sig-name descname">kill_and_reset</code><span class="sig-paren">(</span><em class="sig-param">chromosome</em><span class="sig-paren">)</span><a class="headerlink" href="#Gavl.tools.individual.Individual.kill_and_reset" title="Permalink to this definition">¶</a></dt>
 <dd><p>This is a bit of a “tricky” method. If a new individual of a new generation is going to be created, it will be computationally much faster to get the object of an individual that is going to be killed and reset its values to the ones of the new individual. —&gt; This will be done instead of directly creating a completely new individual with the new data and stop referencing the old individual.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -320,8 +320,8 @@ best_individual = ga.optimize()
 </dd></dl>
 
 <dl class="method">
-<dt id="ga_variable_length.tools.individual.Individual.set_fitness_value">
-<code class="sig-name descname">set_fitness_value</code><span class="sig-paren">(</span><em class="sig-param">fitness_value</em><span class="sig-paren">)</span><a class="headerlink" href="#ga_variable_length.tools.individual.Individual.set_fitness_value" title="Permalink to this definition">¶</a></dt>
+<dt id="Gavl.tools.individual.Individual.set_fitness_value">
+<code class="sig-name descname">set_fitness_value</code><span class="sig-paren">(</span><em class="sig-param">fitness_value</em><span class="sig-paren">)</span><a class="headerlink" href="#Gavl.tools.individual.Individual.set_fitness_value" title="Permalink to this definition">¶</a></dt>
 <dd><p>Method to set the fitness value.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -334,8 +334,8 @@ best_individual = ga.optimize()
 </dd></dl>
 
 <dl class="method">
-<dt id="ga_variable_length.tools.individual.Individual.set_inverse_normalized_fitness_value">
-<code class="sig-name descname">set_inverse_normalized_fitness_value</code><span class="sig-paren">(</span><em class="sig-param">inverse_normalized_fitness_value</em><span class="sig-paren">)</span><a class="headerlink" href="#ga_variable_length.tools.individual.Individual.set_inverse_normalized_fitness_value" title="Permalink to this definition">¶</a></dt>
+<dt id="Gavl.tools.individual.Individual.set_inverse_normalized_fitness_value">
+<code class="sig-name descname">set_inverse_normalized_fitness_value</code><span class="sig-paren">(</span><em class="sig-param">inverse_normalized_fitness_value</em><span class="sig-paren">)</span><a class="headerlink" href="#Gavl.tools.individual.Individual.set_inverse_normalized_fitness_value" title="Permalink to this definition">¶</a></dt>
 <dd><p>Method to set the inverse normalized fitness value.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -348,8 +348,8 @@ best_individual = ga.optimize()
 </dd></dl>
 
 <dl class="method">
-<dt id="ga_variable_length.tools.individual.Individual.set_new_chromosome">
-<code class="sig-name descname">set_new_chromosome</code><span class="sig-paren">(</span><em class="sig-param">chromosome</em><span class="sig-paren">)</span><a class="headerlink" href="#ga_variable_length.tools.individual.Individual.set_new_chromosome" title="Permalink to this definition">¶</a></dt>
+<dt id="Gavl.tools.individual.Individual.set_new_chromosome">
+<code class="sig-name descname">set_new_chromosome</code><span class="sig-paren">(</span><em class="sig-param">chromosome</em><span class="sig-paren">)</span><a class="headerlink" href="#Gavl.tools.individual.Individual.set_new_chromosome" title="Permalink to this definition">¶</a></dt>
 <dd><p>Method to set a chromosome.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -362,8 +362,8 @@ best_individual = ga.optimize()
 </dd></dl>
 
 <dl class="method">
-<dt id="ga_variable_length.tools.individual.Individual.set_normalized_fitness_value">
-<code class="sig-name descname">set_normalized_fitness_value</code><span class="sig-paren">(</span><em class="sig-param">normalized_fitness_value</em><span class="sig-paren">)</span><a class="headerlink" href="#ga_variable_length.tools.individual.Individual.set_normalized_fitness_value" title="Permalink to this definition">¶</a></dt>
+<dt id="Gavl.tools.individual.Individual.set_normalized_fitness_value">
+<code class="sig-name descname">set_normalized_fitness_value</code><span class="sig-paren">(</span><em class="sig-param">normalized_fitness_value</em><span class="sig-paren">)</span><a class="headerlink" href="#Gavl.tools.individual.Individual.set_normalized_fitness_value" title="Permalink to this definition">¶</a></dt>
 <dd><p>Method to set the normalized fitness value.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -381,8 +381,8 @@ best_individual = ga.optimize()
 </div>
 <div class="section" id="tools">
 <h1>Tools<a class="headerlink" href="#tools" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="module-ga_variable_length.tools.crossover">
-<span id="crossover"></span><h2>Crossover<a class="headerlink" href="#module-ga_variable_length.tools.crossover" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-Gavl.tools.crossover">
+<span id="crossover"></span><h2>Crossover<a class="headerlink" href="#module-Gavl.tools.crossover" title="Permalink to this headline">¶</a></h2>
 <p>In this file it is defined the functions to perform crossover.</p>
 <dl class="simple">
 <dt>Functions: </dt><dd><p>cross_individuals: this function performs the crossover of two given individuals.
@@ -390,8 +390,8 @@ mating: this function calculates the crossover of ALL the paired individuals wit
 </dd>
 </dl>
 <dl class="function">
-<dt id="ga_variable_length.tools.crossover.cross_individuals">
-<code class="sig-prename descclassname">ga_variable_length.tools.crossover.</code><code class="sig-name descname">cross_individuals</code><span class="sig-paren">(</span><em class="sig-param">chromosome_a</em>, <em class="sig-param">chromosome_b</em>, <em class="sig-param">min_length_chromosome</em>, <em class="sig-param">max_length_chromosome</em>, <em class="sig-param">repeated_genes_allowed</em>, <em class="sig-param">check_valid_individual</em><span class="sig-paren">)</span><a class="headerlink" href="#ga_variable_length.tools.crossover.cross_individuals" title="Permalink to this definition">¶</a></dt>
+<dt id="Gavl.tools.crossover.cross_individuals">
+<code class="sig-prename descclassname">Gavl.tools.crossover.</code><code class="sig-name descname">cross_individuals</code><span class="sig-paren">(</span><em class="sig-param">chromosome_a</em>, <em class="sig-param">chromosome_b</em>, <em class="sig-param">min_length_chromosome</em>, <em class="sig-param">max_length_chromosome</em>, <em class="sig-param">repeated_genes_allowed</em>, <em class="sig-param">check_valid_individual</em><span class="sig-paren">)</span><a class="headerlink" href="#Gavl.tools.crossover.cross_individuals" title="Permalink to this definition">¶</a></dt>
 <dd><p>This function calculates the crossover between two different individuals. It selects a random number of genes of the individuals a and b that are going to be interchanged (note that the number of genes from individual a to individual b may be different than the number of genes changed from individual b to individual a), and calculates if there is any possible crossover of that size (with the function check_valid_individual). If so, one of the possible crossovers (selected randomly) is performed and the resulting new chromosomes are returned. If there is no possible crossover of that size, it is tested another different combination of sizes. Notice that the function check_valid_individual is used to test the created individuals, and if it is done 2000 unsuccessful crossovers, it is taken as an impossible to couple pair of individuals and their original chromosomes are returned.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -425,8 +425,8 @@ mating: this function calculates the crossover of ALL the paired individuals wit
 </dd></dl>
 
 <dl class="function">
-<dt id="ga_variable_length.tools.crossover.mating">
-<code class="sig-prename descclassname">ga_variable_length.tools.crossover.</code><code class="sig-name descname">mating</code><span class="sig-paren">(</span><em class="sig-param">list_of_paired_ind</em>, <em class="sig-param">min_length_chromosome</em>, <em class="sig-param">max_length_chromosome</em>, <em class="sig-param">repeated_genes_allowed</em>, <em class="sig-param">check_valid_individual</em><span class="sig-paren">)</span><a class="headerlink" href="#ga_variable_length.tools.crossover.mating" title="Permalink to this definition">¶</a></dt>
+<dt id="Gavl.tools.crossover.mating">
+<code class="sig-prename descclassname">Gavl.tools.crossover.</code><code class="sig-name descname">mating</code><span class="sig-paren">(</span><em class="sig-param">list_of_paired_ind</em>, <em class="sig-param">min_length_chromosome</em>, <em class="sig-param">max_length_chromosome</em>, <em class="sig-param">repeated_genes_allowed</em>, <em class="sig-param">check_valid_individual</em><span class="sig-paren">)</span><a class="headerlink" href="#Gavl.tools.crossover.mating" title="Permalink to this definition">¶</a></dt>
 <dd><p>This function returns the mated couples of individuals when it is possible to make this mating. If it is not possible to make the mating because all the combinations give invalid individuals (if repeated_genes_allowed = 0 and the two individuals are exactly the same genes), then the two intended to be paired individuals are returned.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -453,16 +453,16 @@ mating: this function calculates the crossover of ALL the paired individuals wit
 </dd></dl>
 
 </div>
-<div class="section" id="module-ga_variable_length.tools.generate_chromosome">
-<span id="generate-chromosome"></span><h2>Generate chromosome<a class="headerlink" href="#module-ga_variable_length.tools.generate_chromosome" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-Gavl.tools.generate_chromosome">
+<span id="generate-chromosome"></span><h2>Generate chromosome<a class="headerlink" href="#module-Gavl.tools.generate_chromosome" title="Permalink to this headline">¶</a></h2>
 <p>In this file it is defined the functions to create a new individual (chromosome).</p>
 <dl class="simple">
 <dt>Functions:</dt><dd><p>generate_chromosome: Main function.</p>
 </dd>
 </dl>
 <dl class="function">
-<dt id="ga_variable_length.tools.generate_chromosome.generate_chromosome">
-<code class="sig-prename descclassname">ga_variable_length.tools.generate_chromosome.</code><code class="sig-name descname">generate_chromosome</code><span class="sig-paren">(</span><em class="sig-param">min_length_chromosome</em>, <em class="sig-param">max_length_chromosome</em>, <em class="sig-param">possible_genes</em>, <em class="sig-param">repeated_genes_allowed</em><span class="sig-paren">)</span><a class="headerlink" href="#ga_variable_length.tools.generate_chromosome.generate_chromosome" title="Permalink to this definition">¶</a></dt>
+<dt id="Gavl.tools.generate_chromosome.generate_chromosome">
+<code class="sig-prename descclassname">Gavl.tools.generate_chromosome.</code><code class="sig-name descname">generate_chromosome</code><span class="sig-paren">(</span><em class="sig-param">min_length_chromosome</em>, <em class="sig-param">max_length_chromosome</em>, <em class="sig-param">possible_genes</em>, <em class="sig-param">repeated_genes_allowed</em><span class="sig-paren">)</span><a class="headerlink" href="#Gavl.tools.generate_chromosome.generate_chromosome" title="Permalink to this definition">¶</a></dt>
 <dd><p>Function called to create a new individual (its chromosome). It randomly chooses its length (between min_length_chromosome and min_length_chromosome), and it randomly chooses genes among the list of possible_genes.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -483,16 +483,16 @@ mating: this function calculates the crossover of ALL the paired individuals wit
 </dd></dl>
 
 </div>
-<div class="section" id="module-ga_variable_length.tools.keep_diversity">
-<span id="keep-diversity"></span><h2>Keep diversity<a class="headerlink" href="#module-ga_variable_length.tools.keep_diversity" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-Gavl.tools.keep_diversity">
+<span id="keep-diversity"></span><h2>Keep diversity<a class="headerlink" href="#module-Gavl.tools.keep_diversity" title="Permalink to this headline">¶</a></h2>
 <p>In this file it is defined a function to keep the diversity.</p>
 <dl class="simple">
 <dt>Functions:</dt><dd><p>keep_diversity: Function called to keep the diversity.</p>
 </dd>
 </dl>
 <dl class="function">
-<dt id="ga_variable_length.tools.keep_diversity.keep_diversity">
-<code class="sig-prename descclassname">ga_variable_length.tools.keep_diversity.</code><code class="sig-name descname">keep_diversity</code><span class="sig-paren">(</span><em class="sig-param">population</em>, <em class="sig-param">generate_chromosome</em>, <em class="sig-param">min_length_chromosome</em>, <em class="sig-param">max_length_chromosome</em>, <em class="sig-param">possible_genes</em>, <em class="sig-param">repeated_genes_allowed</em>, <em class="sig-param">check_valid_chromosome</em><span class="sig-paren">)</span><a class="headerlink" href="#ga_variable_length.tools.keep_diversity.keep_diversity" title="Permalink to this definition">¶</a></dt>
+<dt id="Gavl.tools.keep_diversity.keep_diversity">
+<code class="sig-prename descclassname">Gavl.tools.keep_diversity.</code><code class="sig-name descname">keep_diversity</code><span class="sig-paren">(</span><em class="sig-param">population</em>, <em class="sig-param">generate_chromosome</em>, <em class="sig-param">min_length_chromosome</em>, <em class="sig-param">max_length_chromosome</em>, <em class="sig-param">possible_genes</em>, <em class="sig-param">repeated_genes_allowed</em>, <em class="sig-param">check_valid_chromosome</em><span class="sig-paren">)</span><a class="headerlink" href="#Gavl.tools.keep_diversity.keep_diversity" title="Permalink to this definition">¶</a></dt>
 <dd><p>This function is called when it is wanted to do a great emphasis in the diversity of the population. When an individual is repeated in the population it is substituted by a completely new and randomly generated individual. As well the worst 25% of the population is substituted by completely new and random individuals. Note that before calling this function the population MUST be sorted by fitness.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -513,8 +513,8 @@ mating: this function calculates the crossover of ALL the paired individuals wit
 </dd></dl>
 
 </div>
-<div class="section" id="module-ga_variable_length.tools.mutation">
-<span id="mutation"></span><h2>Mutation<a class="headerlink" href="#module-ga_variable_length.tools.mutation" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-Gavl.tools.mutation">
+<span id="mutation"></span><h2>Mutation<a class="headerlink" href="#module-Gavl.tools.mutation" title="Permalink to this headline">¶</a></h2>
 <p>In this file it is defined the function to perform mutation.</p>
 <dl class="simple">
 <dt>Function: </dt><dd><p>mutation: Function that performs mutation.
@@ -523,8 +523,8 @@ mutate_length_manner: Auxiliary function to make the mutation in length.</p>
 </dd>
 </dl>
 <dl class="function">
-<dt id="ga_variable_length.tools.mutation.mutate_genes_manner">
-<code class="sig-prename descclassname">ga_variable_length.tools.mutation.</code><code class="sig-name descname">mutate_genes_manner</code><span class="sig-paren">(</span><em class="sig-param">chromosome</em>, <em class="sig-param">max_num_gen_changed_mutation</em>, <em class="sig-param">mutation_genes</em>, <em class="sig-param">check_valid_individual</em><span class="sig-paren">)</span><a class="headerlink" href="#ga_variable_length.tools.mutation.mutate_genes_manner" title="Permalink to this definition">¶</a></dt>
+<dt id="Gavl.tools.mutation.mutate_genes_manner">
+<code class="sig-prename descclassname">Gavl.tools.mutation.</code><code class="sig-name descname">mutate_genes_manner</code><span class="sig-paren">(</span><em class="sig-param">chromosome</em>, <em class="sig-param">max_num_gen_changed_mutation</em>, <em class="sig-param">mutation_genes</em>, <em class="sig-param">check_valid_individual</em><span class="sig-paren">)</span><a class="headerlink" href="#Gavl.tools.mutation.mutate_genes_manner" title="Permalink to this definition">¶</a></dt>
 <dd><p>This function performs the mutation of the genes (not the length).</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -550,8 +550,8 @@ mutate_length_manner: Auxiliary function to make the mutation in length.</p>
 </dd></dl>
 
 <dl class="function">
-<dt id="ga_variable_length.tools.mutation.mutate_length_manner">
-<code class="sig-prename descclassname">ga_variable_length.tools.mutation.</code><code class="sig-name descname">mutate_length_manner</code><span class="sig-paren">(</span><em class="sig-param">chromosome</em>, <em class="sig-param">max_num_gen_changed_mutation</em>, <em class="sig-param">min_length_chromosome</em>, <em class="sig-param">max_length_chromosome</em>, <em class="sig-param">mutation_genes</em>, <em class="sig-param">check_valid_individual</em><span class="sig-paren">)</span><a class="headerlink" href="#ga_variable_length.tools.mutation.mutate_length_manner" title="Permalink to this definition">¶</a></dt>
+<dt id="Gavl.tools.mutation.mutate_length_manner">
+<code class="sig-prename descclassname">Gavl.tools.mutation.</code><code class="sig-name descname">mutate_length_manner</code><span class="sig-paren">(</span><em class="sig-param">chromosome</em>, <em class="sig-param">max_num_gen_changed_mutation</em>, <em class="sig-param">min_length_chromosome</em>, <em class="sig-param">max_length_chromosome</em>, <em class="sig-param">mutation_genes</em>, <em class="sig-param">check_valid_individual</em><span class="sig-paren">)</span><a class="headerlink" href="#Gavl.tools.mutation.mutate_length_manner" title="Permalink to this definition">¶</a></dt>
 <dd><p>This function performs the mutation of the genes (not the length).</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -579,8 +579,8 @@ mutate_length_manner: Auxiliary function to make the mutation in length.</p>
 </dd></dl>
 
 <dl class="function">
-<dt id="ga_variable_length.tools.mutation.mutation">
-<code class="sig-prename descclassname">ga_variable_length.tools.mutation.</code><code class="sig-name descname">mutation</code><span class="sig-paren">(</span><em class="sig-param">chromosomes_to_mutate</em>, <em class="sig-param">mutation_type</em>, <em class="sig-param">max_num_gen_changed_mutation</em>, <em class="sig-param">min_length_chromosome</em>, <em class="sig-param">max_length_chromosome</em>, <em class="sig-param">repeated_genes_allowed</em>, <em class="sig-param">check_valid_individual</em>, <em class="sig-param">possible_genes</em><span class="sig-paren">)</span><a class="headerlink" href="#ga_variable_length.tools.mutation.mutation" title="Permalink to this definition">¶</a></dt>
+<dt id="Gavl.tools.mutation.mutation">
+<code class="sig-prename descclassname">Gavl.tools.mutation.</code><code class="sig-name descname">mutation</code><span class="sig-paren">(</span><em class="sig-param">chromosomes_to_mutate</em>, <em class="sig-param">mutation_type</em>, <em class="sig-param">max_num_gen_changed_mutation</em>, <em class="sig-param">min_length_chromosome</em>, <em class="sig-param">max_length_chromosome</em>, <em class="sig-param">repeated_genes_allowed</em>, <em class="sig-param">check_valid_individual</em>, <em class="sig-param">possible_genes</em><span class="sig-paren">)</span><a class="headerlink" href="#Gavl.tools.mutation.mutation" title="Permalink to this definition">¶</a></dt>
 <dd><p>This function receives a chromosome and performs a random mutation over one of its elements. It iterates over all the possible mutations until one is found, moment in which the execution stops. If no mutation is found, then it returns the input chromosome. Notice that the function check_valid_individual is used to test the created individuals, and if it is done 1000 unsuccessful mutations on the same individual, it is taken as an impossible to mutate individual and its original chromosome is returned.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -610,16 +610,16 @@ mutate_length_manner: Auxiliary function to make the mutation in length.</p>
 </dd></dl>
 
 </div>
-<div class="section" id="module-ga_variable_length.tools.pairing">
-<span id="pairing"></span><h2>Pairing<a class="headerlink" href="#module-ga_variable_length.tools.pairing" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-Gavl.tools.pairing">
+<span id="pairing"></span><h2>Pairing<a class="headerlink" href="#module-Gavl.tools.pairing" title="Permalink to this headline">¶</a></h2>
 <p>In this file it is defined the function to perform random pairing given a selection (like the one given by roulette wheel).</p>
 <dl class="simple">
 <dt>Functions: </dt><dd><p>pairing: Given a selection (list with IDs), it performs a pairing of individuals.</p>
 </dd>
 </dl>
 <dl class="function">
-<dt id="ga_variable_length.tools.pairing.pairing">
-<code class="sig-prename descclassname">ga_variable_length.tools.pairing.</code><code class="sig-name descname">pairing</code><span class="sig-paren">(</span><em class="sig-param">list_selected_ind</em><span class="sig-paren">)</span><a class="headerlink" href="#ga_variable_length.tools.pairing.pairing" title="Permalink to this definition">¶</a></dt>
+<dt id="Gavl.tools.pairing.pairing">
+<code class="sig-prename descclassname">Gavl.tools.pairing.</code><code class="sig-name descname">pairing</code><span class="sig-paren">(</span><em class="sig-param">list_selected_ind</em><span class="sig-paren">)</span><a class="headerlink" href="#Gavl.tools.pairing.pairing" title="Permalink to this definition">¶</a></dt>
 <dd><p>This function performs random pairing. NOTE that this function accepts repetitions and elements may be paired with themselves. However, this rarely happens and it can be used as a elite process.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -640,16 +640,16 @@ mutate_length_manner: Auxiliary function to make the mutation in length.</p>
 </dd></dl>
 
 </div>
-<div class="section" id="module-ga_variable_length.tools.selection">
-<span id="selection"></span><h2>Selection<a class="headerlink" href="#module-ga_variable_length.tools.selection" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-Gavl.tools.selection">
+<span id="selection"></span><h2>Selection<a class="headerlink" href="#module-Gavl.tools.selection" title="Permalink to this headline">¶</a></h2>
 <p>In this file it is defined the function to perform a roulette wheel selection.</p>
 <dl class="simple">
 <dt>Functions: </dt><dd><p>roulette_selection: Given a list with the tuples (id_individual, normalized_fitness), this function calculates the a roulette wheel selection based in the normalized fitness.</p>
 </dd>
 </dl>
 <dl class="function">
-<dt id="ga_variable_length.tools.selection.roulette_selection">
-<code class="sig-prename descclassname">ga_variable_length.tools.selection.</code><code class="sig-name descname">roulette_selection</code><span class="sig-paren">(</span><em class="sig-param">population</em>, <em class="sig-param">minimize</em>, <em class="sig-param">num_selected_ind</em><span class="sig-paren">)</span><a class="headerlink" href="#ga_variable_length.tools.selection.roulette_selection" title="Permalink to this definition">¶</a></dt>
+<dt id="Gavl.tools.selection.roulette_selection">
+<code class="sig-prename descclassname">Gavl.tools.selection.</code><code class="sig-name descname">roulette_selection</code><span class="sig-paren">(</span><em class="sig-param">population</em>, <em class="sig-param">minimize</em>, <em class="sig-param">num_selected_ind</em><span class="sig-paren">)</span><a class="headerlink" href="#Gavl.tools.selection.roulette_selection" title="Permalink to this definition">¶</a></dt>
 <dd><p>This function returns a list with the ids of the individuals selected by the roulette wheel selection. Note that the normalized fitness of the population must be calculated before calling this function (call the method Gavl._Population__calculate_normalized_fitness).</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -674,8 +674,8 @@ mutate_length_manner: Auxiliary function to make the mutation in length.</p>
 </dd></dl>
 
 </div>
-<div class="section" id="module-ga_variable_length.tools.termination_criteria">
-<span id="termination-criteria"></span><h2>Termination criteria<a class="headerlink" href="#module-ga_variable_length.tools.termination_criteria" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-Gavl.tools.termination_criteria">
+<span id="termination-criteria"></span><h2>Termination criteria<a class="headerlink" href="#module-Gavl.tools.termination_criteria" title="Permalink to this headline">¶</a></h2>
 <p>In this file it is defined the functions to check the termination criteria.</p>
 <dl class="simple">
 <dt>Functions:</dt><dd><p>max_num_generation_reached: Function that checks if the max number of generations is reached.
@@ -684,8 +684,8 @@ check_termination_criteria: This function selects the termination criteria</p>
 </dd>
 </dl>
 <dl class="function">
-<dt id="ga_variable_length.tools.termination_criteria.check_termination_criteria">
-<code class="sig-prename descclassname">ga_variable_length.tools.termination_criteria.</code><code class="sig-name descname">check_termination_criteria</code><span class="sig-paren">(</span><em class="sig-param">termination_criteria_args</em><span class="sig-paren">)</span><a class="headerlink" href="#ga_variable_length.tools.termination_criteria.check_termination_criteria" title="Permalink to this definition">¶</a></dt>
+<dt id="Gavl.tools.termination_criteria.check_termination_criteria">
+<code class="sig-prename descclassname">Gavl.tools.termination_criteria.</code><code class="sig-name descname">check_termination_criteria</code><span class="sig-paren">(</span><em class="sig-param">termination_criteria_args</em><span class="sig-paren">)</span><a class="headerlink" href="#Gavl.tools.termination_criteria.check_termination_criteria" title="Permalink to this definition">¶</a></dt>
 <dd><p>This function checks the termination criteria.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -700,8 +700,8 @@ check_termination_criteria: This function selects the termination criteria</p>
 </dd></dl>
 
 <dl class="function">
-<dt id="ga_variable_length.tools.termination_criteria.goal_fitness_reached">
-<code class="sig-prename descclassname">ga_variable_length.tools.termination_criteria.</code><code class="sig-name descname">goal_fitness_reached</code><span class="sig-paren">(</span><em class="sig-param">generation_best_fitness</em>, <em class="sig-param">goal_fitness</em>, <em class="sig-param">minimize</em><span class="sig-paren">)</span><a class="headerlink" href="#ga_variable_length.tools.termination_criteria.goal_fitness_reached" title="Permalink to this definition">¶</a></dt>
+<dt id="Gavl.tools.termination_criteria.goal_fitness_reached">
+<code class="sig-prename descclassname">Gavl.tools.termination_criteria.</code><code class="sig-name descname">goal_fitness_reached</code><span class="sig-paren">(</span><em class="sig-param">generation_best_fitness</em>, <em class="sig-param">goal_fitness</em>, <em class="sig-param">minimize</em><span class="sig-paren">)</span><a class="headerlink" href="#Gavl.tools.termination_criteria.goal_fitness_reached" title="Permalink to this definition">¶</a></dt>
 <dd><p>This function returns True if the goal fitness is reached.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -718,8 +718,8 @@ check_termination_criteria: This function selects the termination criteria</p>
 </dd></dl>
 
 <dl class="function">
-<dt id="ga_variable_length.tools.termination_criteria.max_num_generation_reached">
-<code class="sig-prename descclassname">ga_variable_length.tools.termination_criteria.</code><code class="sig-name descname">max_num_generation_reached</code><span class="sig-paren">(</span><em class="sig-param">generation_count</em>, <em class="sig-param">max_generations</em><span class="sig-paren">)</span><a class="headerlink" href="#ga_variable_length.tools.termination_criteria.max_num_generation_reached" title="Permalink to this definition">¶</a></dt>
+<dt id="Gavl.tools.termination_criteria.max_num_generation_reached">
+<code class="sig-prename descclassname">Gavl.tools.termination_criteria.</code><code class="sig-name descname">max_num_generation_reached</code><span class="sig-paren">(</span><em class="sig-param">generation_count</em>, <em class="sig-param">max_generations</em><span class="sig-paren">)</span><a class="headerlink" href="#Gavl.tools.termination_criteria.max_num_generation_reached" title="Permalink to this definition">¶</a></dt>
 <dd><p>This function returns True if the maximum number of generations is reached.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -735,16 +735,16 @@ check_termination_criteria: This function selects the termination criteria</p>
 </dd></dl>
 
 </div>
-<div class="section" id="module-ga_variable_length.tools.aux_functions.combinations">
-<span id="auxiliary-functions"></span><h2>Auxiliary functions<a class="headerlink" href="#module-ga_variable_length.tools.aux_functions.combinations" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-Gavl.tools.aux_functions.combinations">
+<span id="auxiliary-functions"></span><h2>Auxiliary functions<a class="headerlink" href="#module-Gavl.tools.aux_functions.combinations" title="Permalink to this headline">¶</a></h2>
 <p>In this file it is defined the auxiliary function to get all the combinations of some length of the elements of a list. It is exactly like the tool itertools.combinations, but, as said below, itertools goes prrr (just wanted to define this function in a recurrent and dynamic programming manner).</p>
 <dl class="simple">
 <dt>Function:</dt><dd><p>combinations: function that returns the combinations of some length of the elements in a list.</p>
 </dd>
 </dl>
 <dl class="function">
-<dt id="ga_variable_length.tools.aux_functions.combinations.combinations">
-<code class="sig-prename descclassname">ga_variable_length.tools.aux_functions.combinations.</code><code class="sig-name descname">combinations</code><span class="sig-paren">(</span><em class="sig-param">list_get_comb</em>, <em class="sig-param">length_combination</em><span class="sig-paren">)</span><a class="headerlink" href="#ga_variable_length.tools.aux_functions.combinations.combinations" title="Permalink to this definition">¶</a></dt>
+<dt id="Gavl.tools.aux_functions.combinations.combinations">
+<code class="sig-prename descclassname">Gavl.tools.aux_functions.combinations.</code><code class="sig-name descname">combinations</code><span class="sig-paren">(</span><em class="sig-param">list_get_comb</em>, <em class="sig-param">length_combination</em><span class="sig-paren">)</span><a class="headerlink" href="#Gavl.tools.aux_functions.combinations.combinations" title="Permalink to this definition">¶</a></dt>
 <dd><p>Generator to get all the combinations of some length of the elements of a list.  —&gt; itertools.combinations goes prrrr.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>

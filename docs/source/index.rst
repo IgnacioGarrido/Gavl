@@ -16,7 +16,7 @@ Main class - Gavl
 
 Gavl
 ******************************************************************
-.. automodule:: ga_variable_length.Gavl
+.. automodule:: Gavl.Gavl
    :members:
 
 
@@ -25,12 +25,12 @@ Auxiliary classes
 
 Population
 ******************************************************************
-.. automodule:: ga_variable_length.tools.population
+.. automodule:: Gavl.tools.population
    :members:
 
 Individual
 ******************************************************************
-.. automodule:: ga_variable_length.tools.individual
+.. automodule:: Gavl.tools.individual
    :members:
 
 
@@ -39,42 +39,42 @@ Tools
 
 Crossover
 ******************************************************************
-.. automodule:: ga_variable_length.tools.crossover
+.. automodule:: Gavl.tools.crossover
    :members:
 
 Generate chromosome
 ******************************************************************
-.. automodule:: ga_variable_length.tools.generate_chromosome
+.. automodule:: Gavl.tools.generate_chromosome
    :members:
 
 Keep diversity
 ******************************************************************
-.. automodule:: ga_variable_length.tools.keep_diversity
+.. automodule:: Gavl.tools.keep_diversity
    :members:
 
 Mutation
 ******************************************************************
-.. automodule:: ga_variable_length.tools.mutation
+.. automodule:: Gavl.tools.mutation
    :members:
 
 Pairing
 ******************************************************************
-.. automodule:: ga_variable_length.tools.pairing
+.. automodule:: Gavl.tools.pairing
    :members:
 
 Selection
 ******************************************************************
-.. automodule:: ga_variable_length.tools.selection
+.. automodule:: Gavl.tools.selection
    :members:
 
 Termination criteria
 ******************************************************************
-.. automodule:: ga_variable_length.tools.termination_criteria
+.. automodule:: Gavl.tools.termination_criteria
    :members:
 
 Auxiliary functions
 ******************************************************************
-.. automodule:: ga_variable_length.tools.aux_functions.combinations
+.. automodule:: Gavl.tools.aux_functions.combinations
    :members:
 
 
