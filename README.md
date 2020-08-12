@@ -169,7 +169,7 @@ class Individual:
     if type(chromosome) != list:
     	raise AttributeError('The chromosome must be a list of genes')
     else:
-	  	self.chromosome = chromosome
+	    self.chromosome = chromosome
 	    self._id = str(uuid.uuid4())  # Unique ID for each individual ---> It is unique because uuid uses the time component for creating this id
 	    self.fitness_value = None  # This attribute will be filled when the individual is evaluated
 	    self.normalized_fitness_value = None  # This attribute holds the normalized value of the fitness in comparison to the rest of the population
