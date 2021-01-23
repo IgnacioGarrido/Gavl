@@ -82,7 +82,7 @@ class Gavl(Population):
         self.show_progress = 1  # If show_progress = 1 it will be printed the the progress of the genetic algorithm (the generation).
         self._generation_count = 0  # Number of generations of the current population
 
-    def set_hyperparameter(self, id_hyperparameter, value):  # ToDo: Instead of set_hyperparameter(), implement: __get__, __set__, __delete__
+    def set_hyperparameter(self, id_hyperparameter, value):  # ToDo: Instead of set_hyperparameter(), implement a Descriptor() of each parameter: __get__, __set__, __delete__
         """ Method to set the hyperparameters (attributes of the class Gavl).
 
         :param id_hyperparameter: (str) Id (name) of the hyperparameter that is going to be set.
