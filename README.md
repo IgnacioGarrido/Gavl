@@ -2,11 +2,13 @@
 
 This repository contains a Python framework to optimize a genetic algorithm based on individuals with chromosomes with variable length and unordered genes. The algorithm receives a fitness function and a set of configurable hyperparameters, and then it performs the optimization. The individuals are based on lists of variable length (the minimum and maximum length are configurable parameters) of non-ordered genes with or without repetition (this parameter is configurable as well). The crossover consists of taking a random number of genes of each of the parents to create the child (explained in the section of the crossover). As well, two different mutation algorithms are proposed.
 
+
+
 ## How to use:
 
   1. Download the files:
 ```shell
-	git clone https://github.com/IgnacioGarrido/GA_chromosomeWithVariableLength.git
+  git clone https://github.com/IgnacioGarrido/GA_chromosomeWithVariableLength.git
 ```
 
   2. Import the Gavl class from the file Gavl.py. Note that this is the main and only class needed to execute the genetic algorithm. All the hyperparameters should be passed to an object of this class.
@@ -16,42 +18,42 @@ This repository contains a Python framework to optimize a genetic algorithm base
 
   3. Create an instance of Gavl():
 ```python
-	ga = Gavl.Gavl()
+  ga = Gavl.Gavl()
 ```
 
   4. Configure the hyperparameters that you want:
 ```python
-    ga.set_hyperparameter('size_population', 100)  # Set the size of the population to 100 individuals
-    ga.set_hyperparameter('min_length_chromosome', 3)  # Set the minimum length of the individual to 3 genes
-    ga.set_hyperparameter('max_length_chromosome', 10)  # Set the maximum length of the individual to 10 genes
+  ga.set_hyperparameter('size_population', 100)  # Set the size of the population to 100 individuals
+  ga.set_hyperparameter('min_length_chromosome', 3)  # Set the minimum length of the individual to 3 genes
+  ga.set_hyperparameter('max_length_chromosome', 10)  # Set the maximum length of the individual to 10 genes
 
-    # The fitness function receives the chromosome, which is a list with the genes. It must return the fitness value (number).
-    def fitness(chromosome):
-        return sum(chromosome)
+  # The fitness function receives the chromosome, which is a list with the genes. It must return the fitness value (number).
+  def fitness(chromosome):
+  	return sum(chromosome)
 
-    ga.set_hyperparameter('fitness', fitness)  # Set the fitness function
-    ga.set_hyperparameter('possible_genes', [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15])  # The possible values that the genes can take are the integer numbers between 0 and 15. Notice that this can be a list of integers, strings, ... 
-    ga.set_hyperparameter('termination_criteria', {'max_num_generation_reached': 150})  # Set the termination criteria to maximum number of generations (in this case 150 generations).
-    ga.set_hyperparameter('repeated_genes_allowed', 0)  # In this case the repeated genes are not allowed
-    ga.set_hyperparameter('minimize', 1)  # In this case the goal is to minimize the fitness
-    ga.set_hyperparameter('elitism_rate', 0.1)  # Set an elitism rate of 0.1
-    ga.set_hyperparameter('mutation_rate', 0.2)  # Set a mutation rate of 0.2
-    ga.set_hyperparameter('mutation_type', 'both')  # Set the mutation type (see documentation below)
-    ga.set_hyperparameter('keep_diversity',5)  # Set a mechanism to keep the diversity (see documentation below)
-    ga.set_hyperparameter('show_progress',1)  # Show progress of the genetic algorithm (this will print the generation number)
+  ga.set_hyperparameter('fitness', fitness)  # Set the fitness function
+  ga.set_hyperparameter('possible_genes', [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15])  # The possible values that the genes can take are the integer numbers between 0 and 15. Notice that this can be a list of integers, strings, ... 
+  ga.set_hyperparameter('termination_criteria', {'max_num_generation_reached': 150})  # Set the termination criteria to maximum number of generations (in this case 150 generations).
+  ga.set_hyperparameter('repeated_genes_allowed', 0)  # In this case the repeated genes are not allowed
+  ga.set_hyperparameter('minimize', 1)  # In this case the goal is to minimize the fitness
+  ga.set_hyperparameter('elitism_rate', 0.1)  # Set an elitism rate of 0.1
+  ga.set_hyperparameter('mutation_rate', 0.2)  # Set a mutation rate of 0.2
+  ga.set_hyperparameter('mutation_type', 'both')  # Set the mutation type (see documentation below)
+  ga.set_hyperparameter('keep_diversity',5)  # Set a mechanism to keep the diversity (see documentation below)
+  ga.set_hyperparameter('show_progress',1)  # Show progress of the genetic algorithm (this will print the generation number)
 ```
 
   5. Launch the optimization (notice that the method ```optimize()``` returns the best individual (best solution found for the current problem):
 ```python
-    best_individual = ga.optimize()
+  best_individual = ga.optimize()
 ```
 
   6. If needed, get more results:
 ```python
-    best_individual, population, historic_fitness = ga.get_results()
+  best_individual, population, historic_fitness = ga.get_results()
 ```
 
-  7. As well, if needed any changes, fork the repository and make the all the modifications you want for your project. This is open source software and any additional adaptations are welcome :).
+  7. As well, if needed any changes, fork the repository and make the all the modifications you want. This is open source software and any additional changes are welcome :).
 
 
 
