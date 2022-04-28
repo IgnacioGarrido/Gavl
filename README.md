@@ -1,4 +1,4 @@
-# Genetic algorithm with chromosomes with variable length
+# Genetic algorithm with chromosomes of variable length
 
 This repository contains a Python framework to optimize a genetic algorithm based on individuals with chromosomes with variable length and unordered genes. The algorithm receives a fitness function and a set of configurable hyperparameters, and then it performs the optimization. The individuals are based on lists of variable length (the minimum and maximum length are configurable parameters) of non-ordered genes with or without repetition (this parameter is configurable as well). The crossover consists of taking a random number of genes of each of the parents to create the child (explained in the section of the crossover). As well, two different mutation algorithms are proposed.
 
