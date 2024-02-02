@@ -7,7 +7,7 @@ setuptools.setup(
     name="Gavl-Ignacio-Garrido-Botella", # Replace with your own username
     version="1.0.1",
     author="Ignacio Garrido Botella",
-    author_email="ignaciogabo95@gmail.com",
+    author_email="igngarridobotella@gmail.com",
     description="Framework to launch a genetic algorithm with chromosomes with variable length.",
     long_description=long_description,
     long_description_content_type="text/markdown",
