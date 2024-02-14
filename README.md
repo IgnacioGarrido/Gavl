@@ -8,7 +8,7 @@ This repository contains a Python framework to optimize a genetic algorithm base
 
   1. Download the files:
 ```shell
-  git clone https://github.com/IgnacioGarrido/GA_chromosomeWithVariableLength.git
+  git clone https://github.com/IgnacioGarrido/Gavl.git
 ```
 
   2. Import the Gavl class from the file Gavl.py. Note that this is the main and only class needed to execute the genetic algorithm. All the hyperparameters should be passed to an object of this class.
